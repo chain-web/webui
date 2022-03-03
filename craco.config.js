@@ -10,7 +10,7 @@ module.exports = {
           pluginOptions,
           context: { paths },
         }) => {
-          console.log(webpackConfig.module);
+          // console.log(webpackConfig.module);
           webpackConfig.resolve.fallback = {
             // assert: require.resolve('assert'),
             // buffer: require.resolve('buffer'),
