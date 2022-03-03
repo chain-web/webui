@@ -1,11 +1,11 @@
 import React from 'react';
 import { useRoutes } from 'react-router-dom';
-import Home from './page/home';
+import TestPage from './page/test';
 import './App.css';
 import 'antd/dist/antd.css';
 
 function App() {
-  let element = useRoutes([{ path: '/', element: <Home /> }]);
+  let element = useRoutes([{ path: '/test', element: <TestPage /> }]);
 
   return element;
 }
