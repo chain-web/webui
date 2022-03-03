@@ -1,9 +1,9 @@
-import i18n from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import { initReactI18next } from 'react-i18next';
+import i18n from "i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+import { initReactI18next } from "react-i18next";
 // demo
 // https://codesandbox.io/s/1zxox032q?file=/src/app.js
-const context = (require as any).context('../', true, /\.i18n.ts$/);
+const context = (require as any).context("../", true, /\.i18n.ts$/);
 const modalFiles = context.keys();
 const resources = modalFiles.map((ele: string) => {
   return context(ele).default;
@@ -30,12 +30,19 @@ resources.forEach(
         ...ele[lan].translations,
       };
     });
-  },
+  }
 );
 console.log(transMap);
-// i18n
-//   .use(LanguageDetector)
-//   .use(initReactI18next)
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources: transMap,
+    fallbackLng: "en",
+    debug: process.env.NODE_ENV === "development",
+    ns: ["translations"],
+    defaultNS: "translations",
+  });
 //   .init({
 //     resources: {
 //       en: {
@@ -58,8 +65,6 @@ console.log(transMap);
 //     debug: true,
 
 //     // have a common namespace used around the full app
-//     ns: ['translations'],
-//     defaultNS: 'translations',
 
 //     keySeparator: false, // we use content as keys
 

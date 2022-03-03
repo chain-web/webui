@@ -1,25 +1,26 @@
-import { Button, Input } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useMachine } from '@xstate/react';
-import { skNodesMachine } from './store';
-import './index.scss';
-import { accounts } from './accounts';
-import ConnectTo from './components/connectTo';
-import { skCacheKeys } from 'sk-chain';
-import Devtool from './components/devtool';
-import { xstateDev } from '../../config';
-import Transaction from './components/transaction';
+import { Button, Input } from "antd";
+import React, { useEffect, useState } from "react";
+import { useMachine } from "@xstate/react";
+import { skNodesMachine } from "./store";
+import "./index.scss";
+import { accounts } from "./accounts";
+import { skCacheKeys } from "sk-chain";
+import Devtool from "./components/devtool";
+import { xstateDev } from "../../config";
+import Transaction from "./components/transaction";
+import NodeStatus from "./components/nodeStatus";
+import ChangeI18n from "../../config/i18nSelect";
 
 export default function Home() {
   useEffect(() => {}, []);
   const [current, send] = useMachine(skNodesMachine, { devTools: xstateDev });
-  const started = current.matches('started');
-  const start = current.matches('start');
+  const started = current.matches("started");
+  const start = current.matches("start");
   const { chain } = current.context;
-  const [did, setdid] = useState<string>();
   // const [priv, setpriv] = useState('');
   return (
     <div className="home-box">
+      <ChangeI18n />
       <div className="home-start-node">
         {accounts.map((ele) => {
           return (
@@ -32,7 +33,7 @@ export default function Home() {
               {!started && !start && (
                 <Button
                   onClick={() => {
-                    send('START-CHAIN', { did: ele.id, priv: ele.privKey });
+                    send("START-CHAIN", { did: ele.id, priv: ele.privKey });
                   }}
                 >
                   启动节点
@@ -49,6 +50,7 @@ export default function Home() {
           )}
           {started && <p>{chain.sk.db.cache.get(skCacheKeys.accountId)}</p>}
           {started && <Button type="ghost">启动成功</Button>}
+          {started && <NodeStatus />}
         </div>
       </div>
       {<Transaction />}
