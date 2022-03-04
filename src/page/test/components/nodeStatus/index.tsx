@@ -22,7 +22,7 @@ export default function NodeStatus() {
         <span>{node.slice.slice}</span>
       </div>
       <div className="status-item">
-        <span>{t("slicePreeSize")}: </span>
+        <span>{t("slicePeerSize")}: </span>
         <span>{node.slice.curPeers.size}</span>
       </div>
     </div>

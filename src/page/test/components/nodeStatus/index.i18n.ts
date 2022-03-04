@@ -5,14 +5,14 @@ const lans = {
     translations: {
       node_status: "node status",
       sliceName: "current slice key",
-      slicePreeSize: "current slice pree count",
+      slicePeerSize: "current slice peer count",
     },
   },
   zh: {
     translations: {
       node_status: "节点状态",
       sliceName: "当前分片",
-      slicePreeSize: "当前分片节点数",
+      slicePeerSize: "当前分片节点数",
     },
   },
 };
