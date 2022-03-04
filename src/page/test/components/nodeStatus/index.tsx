@@ -9,9 +9,12 @@ export default function NodeStatus() {
   const [t] = useTranslation();
   const [time, settime] = useState(Date.now());
   useEffect(() => {
-    setTimeout(() => {
+    let interval  = setInterval(() => {
       settime(Date.now());
     }, 1000);
+    return () => {
+      clearInterval(interval)
+    }
   }, []);
   const node = current.context.chain.sk;
   return (
