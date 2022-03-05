@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { HashRouter } from 'react-router-dom';
 import { inspect } from '@xstate/inspect';
 import { xstateDev } from './config';
-import './config/i18n'
+import './config/i18n/i18n'
 
 xstateDev &&
   inspect({
