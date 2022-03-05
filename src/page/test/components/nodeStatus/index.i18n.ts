@@ -6,6 +6,7 @@ const lans = {
       node_status: 'node status',
       sliceName: 'current slice key',
       slicePeerSize: 'current slice peer count',
+      slicePeerList: 'peer list',
     },
   },
   zh: {
@@ -13,6 +14,7 @@ const lans = {
       node_status: '节点状态',
       sliceName: '当前分片',
       slicePeerSize: '当前分片节点数',
+      slicePeerList: '节点列表',
     },
   },
 };

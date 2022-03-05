@@ -41,11 +41,22 @@ export default function NodeStatus() {
       {showPeers && (
         <Modal
           visible={true}
+          title={t(lanKeys.slicePeerList)}
           onCancel={() => {
             setshowPeers(false);
           }}
+          footer={null}
+          className="nodestatus-peer-list-modal-box"
         >
-          aaa
+          {Array.from(node.slice.curPeers.keys()).map((ele) => (
+            <div className='pree-item' key={ele}>
+              <p>{ele}: </p>
+              <p>
+                active at {Date.now() - (node.slice.curPeers.get(ele)?.ts || 0)}{' '}
+                ms ago
+              </p>
+            </div>
+          ))}
         </Modal>
       )}
     </div>
