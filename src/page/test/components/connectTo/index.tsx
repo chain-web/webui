@@ -1,6 +1,6 @@
 import { Button, Input, message } from 'antd';
 import React, { useState } from 'react';
-import { skNodesMachine } from '../../store';
+import { skNodesMachine } from '../../index.state';
 import './index.scss';
 import { useMachine } from '@xstate/react';
 
