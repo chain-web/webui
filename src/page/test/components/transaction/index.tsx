@@ -3,7 +3,7 @@ import Form, { useForm } from 'antd/lib/form/Form';
 import FormItem from 'antd/lib/form/FormItem';
 import React from 'react';
 import { accounts } from '../../accounts';
-import { skNodesMachine } from '../../store';
+import { skNodesMachine } from '../../index.state';
 import { TRANS_AMOUNT, TRANS_TO } from './config';
 import './index.scss';
 import { useMachine } from '@xstate/react';

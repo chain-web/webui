@@ -1,7 +1,7 @@
 import { Button, Input } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useMachine } from '@xstate/react';
-import { skNodesMachine } from './store';
+import { skNodesMachine } from './index.state';
 import './index.scss';
 import { accounts } from './accounts';
 import { skCacheKeys } from 'sk-chain';
