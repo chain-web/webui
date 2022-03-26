@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "craco start",
+    "start": "FAST_REFRESH=false BROWSER=none craco start",
     "build": "craco build",
     "deploy": "ccli deploy pages-static --dir ./build --env skchain",
     "test": "craco test",

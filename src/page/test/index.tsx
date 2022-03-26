@@ -12,10 +12,22 @@ import NodeStatus from './components/nodeStatus';
 import ChangeI18n from '../../config/i18n/i18nSelect';
 import { useTranslation } from 'react-i18next';
 import { lanKeys } from './index.i18n';
+import { historyAction } from '../../utils/history';
 
 export default function Home() {
-  useEffect(() => {}, []);
   const [current, send] = useMachine(skNodesMachine, { devTools: xstateDev });
+  useEffect(() => {
+    // 方便调试，自动启动节点
+    const autoStart = +historyAction.pullHashParam('autoStart');
+    if (!isNaN(autoStart) && accounts[autoStart]) {
+      setTimeout(() => {
+        send('START-CHAIN', {
+          did: accounts[autoStart].id,
+          priv: accounts[autoStart].privKey,
+        });
+      }, 3000);
+    }
+  }, []);
   const started = current.matches('started');
   const [t] = useTranslation();
   const start = current.matches('start');
