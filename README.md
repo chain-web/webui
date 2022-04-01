@@ -2,4 +2,4 @@
 
 ### pages
 
-test: http://localhost:3000/skchain/#/test
+test: http://localhost:8088/skchain/#/test
