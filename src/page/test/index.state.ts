@@ -32,6 +32,10 @@ export const skNodesMachine = createMachine<SkNodeMachineContext>(
             // actions:assign({})
           },
           onError: {
+            actions: (c, err) => {
+              console.error('init sk-chain err')
+              console.log(err)
+            },
             target: 'stop',
           },
         },

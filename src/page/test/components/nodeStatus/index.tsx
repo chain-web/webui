@@ -25,11 +25,11 @@ export default function NodeStatus() {
       <h3>{t(lanKeys.node_status)}</h3>
       <div className="status-item">
         <span>{t(lanKeys.slicePeerSize)}: </span>
-        <span>{node.slice.slice}</span>
+        <span>{node.consensus.slice.slice}</span>
       </div>
       <div className="status-item">
         <span>{t(lanKeys.slicePeerSize)}: </span>
-        <span>{node.slice.curPeers.size}</span>
+        <span>{node.consensus.slice.curPeers.size}</span>
         <Button
           onClick={() => {
             setshowPeers(true);
@@ -48,11 +48,11 @@ export default function NodeStatus() {
           footer={null}
           className="nodestatus-peer-list-modal-box"
         >
-          {Array.from(node.slice.curPeers.keys()).map((ele) => (
-            <div className='pree-item' key={ele}>
+          {Array.from(node.consensus.slice.curPeers.keys()).map((ele) => (
+            <div className='pree-item' key={`${ele}`}>
               <p>{ele}: </p>
               <p>
-                active at {Date.now() - (node.slice.curPeers.get(ele)?.ts || 0)}{' '}
+                active at {Date.now() - (node.consensus.slice.curPeers.get(ele)?.ts || 0)}{' '}
                 ms ago
               </p>
             </div>
