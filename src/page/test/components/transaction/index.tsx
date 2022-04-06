@@ -7,6 +7,7 @@ import { skNodesMachine } from '../../index.state';
 import { TRANS_AMOUNT, TRANS_TO } from './config';
 import './index.scss';
 import { useMachine } from '@xstate/react';
+import BigNumber from 'bignumber.js';
 
 export default function Transaction() {
   const [current] = useMachine(skNodesMachine);
@@ -33,7 +34,7 @@ export default function Transaction() {
           onClick={() => {
             form.validateFields();
             current.context.chain.sk.transaction({
-              amount: form.getFieldValue(TRANS_AMOUNT),
+              amount: new BigNumber(form.getFieldValue(TRANS_AMOUNT)),
               recipient: form.getFieldValue(TRANS_TO),
               payload: ''
             });
