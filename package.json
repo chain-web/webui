@@ -30,6 +30,8 @@
     "react-scripts": "5.0.0",
     "typescript": "^4.5.5",
     "web-vitals": "^2.1.4",
+    "minimist": ">=1.2.6",
+    "moment": ">=2.29.2",
     "xstate": "^4.30.1"
   },
   "devDependencies": {
