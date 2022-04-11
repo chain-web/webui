@@ -25,7 +25,7 @@ export default function Home() {
           did: accounts[autoStart].id,
           priv: accounts[autoStart].privKey,
         });
-      }, 3000);
+      }, 4000);
     }
   }, []);
   const started = current.matches('started');
