@@ -7,6 +7,10 @@ const lans = {
       sliceName: 'current slice key',
       slicePeerSize: 'current slice peer count',
       slicePeerList: 'peer list',
+      blockMsg: 'block msg',
+      blockNumber: 'block number',
+      blockHesh: 'block hesh',
+      blockCid: 'block cid',
     },
   },
   zh: {
@@ -15,6 +19,10 @@ const lans = {
       sliceName: '当前分片',
       slicePeerSize: '当前分片节点数',
       slicePeerList: '节点列表',
+      blockMsg: 'block msg',
+      blockNumber: 'block number',
+      blockHesh: 'block hesh',
+      blockCid: 'block cid',
     },
   },
 };
