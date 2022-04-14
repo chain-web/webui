@@ -11,6 +11,8 @@ const lans = {
       blockNumber: 'block number',
       blockHesh: 'block hesh',
       blockCid: 'block cid',
+      accountBalance: 'account balance',
+      accountNonce: 'account nonce',
     },
   },
   zh: {
@@ -23,6 +25,8 @@ const lans = {
       blockNumber: 'block number',
       blockHesh: 'block hesh',
       blockCid: 'block cid',
+      accountBalance: 'account balance',
+      accountNonce: 'account nonce',
     },
   },
 };

@@ -5,17 +5,18 @@ import { useMachine } from '@xstate/react';
 import { useTranslation } from 'react-i18next';
 import { Button, Modal } from 'antd';
 import { lanKeys } from './index.i18n';
-import { Block } from 'sk-chain';
+import { Block, Account } from 'sk-chain';
 
 export default function NodeStatus() {
   const [current] = useMachine(skNodesMachine);
   const [t] = useTranslation();
   const [time, settime] = useState<NodeJS.Timeout>();
   const [headerBlock, setHeaderBlock] = useState<Block>();
+  const [account, setAccount] = useState<Account>();
   const [showPeers, setshowPeers] = useState(false);
   const [showBlock, setshowBlock] = useState(false);
   useEffect(() => {
-    getHeaderBlock()
+    getHeaderBlock();
     return () => {
       clearTimeout(time!);
     };
@@ -29,6 +30,9 @@ export default function NodeStatus() {
         getHeaderBlock();
       }, 800);
       settime(id);
+    });
+    node.ipld.getAccountFromDb(node.did).then((res: Account) => {
+      setAccount(res);
     });
   };
   return (
@@ -65,6 +69,19 @@ export default function NodeStatus() {
           >
             👀
           </Button>
+        </div>
+      )}
+      {account && (
+        <div className="status-item">
+          <span>{t(lanKeys.accountBalance)}: </span>
+          <span>{account.getBlance().toString()}</span>
+        </div>
+      )}
+
+      {account && (
+        <div className="status-item">
+          <span>{t(lanKeys.accountNonce)}: </span>
+          <span>{account.nonce.toString()}</span>
         </div>
       )}
 
