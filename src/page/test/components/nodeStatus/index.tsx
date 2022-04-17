@@ -43,6 +43,10 @@ export default function NodeStatus() {
         <span>{node.consensus.slice.slice}</span>
       </div>
       <div className="status-item">
+        <span>{t(lanKeys.sliceStatus)}: </span>
+        <span>{node.consensus.slice.syncing ? 'syncing' : ''}</span>
+      </div>
+      <div className="status-item">
         <span>{t(lanKeys.slicePeerSize)}: </span>
         <span>{node.consensus.slice.curPeers.size}</span>
         <Button
@@ -105,6 +109,10 @@ export default function NodeStatus() {
               </p>
             </div>
           ))}
+          <p>blockRootMap</p>
+          <pre>
+            {JSON.stringify(node.consensus.slice.blockRootMap, null, 2)}
+          </pre>
         </Modal>
       )}
       {showBlock && (
