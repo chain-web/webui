@@ -103,7 +103,8 @@ export default function NodeStatus() {
             <div className="pree-item" key={`${ele}`}>
               <p>{ele}: </p>
               <p>
-                active at{' '}
+                [ready: {Boolean(node.consensus.slice.curPeers.get(ele)?.ready).toString()}
+                ] active at{' '}
                 {Date.now() - (node.consensus.slice.curPeers.get(ele)?.ts || 0)}{' '}
                 ms ago
               </p>
