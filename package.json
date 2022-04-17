@@ -4,6 +4,10 @@
   "private": true,
   "scripts": {
     "start": "PORT=8088 FAST_REFRESH=false BROWSER=none craco start",
+    "start:8089": "PORT=8089 FAST_REFRESH=false BROWSER=none craco start",
+    "start:8090": "PORT=8090 FAST_REFRESH=false BROWSER=none craco start",
+    "start: 8091": "PORT=8091 FAST_REFRESH=false BROWSER=none craco start",
+    "start: 8092": "PORT=8092 FAST_REFRESH=false BROWSER=none craco start",
     "build": "craco build",
     "deploy": "ccli deploy pages-static --dir ./build --env skchain",
     "test": "craco test",
