@@ -1,11 +1,45 @@
 import { message } from 'antd';
-import { assign, createMachine } from 'xstate';
+import { DidJson } from 'sk-chain';
+import { assign, createMachine, MachineConfig, StateSchema } from 'xstate';
 import { SkChain } from './sk';
 interface SkNodeMachineContext {
   chain: SkChain;
+  chainOpts: {
+    forceReady?: boolean;
+  };
 }
 
-type EventDataI<T> = { type: string } & T;
+export enum SkNodeEventType {
+  'START_CHAIN' = 'START_CHAIN',
+  'CONFIG_CHAIN' = 'CONFIG_CHAIN',
+}
+
+export type SkNodeStateEvent =
+  | { type: SkNodeEventType.START_CHAIN; data: DidJson }
+  | {
+      type: SkNodeEventType.CONFIG_CHAIN;
+      data: Partial<SkNodeMachineContext['chainOpts']>;
+    };
+
+export interface SkNodeStateSchema extends StateSchema {
+  states: {
+    stop: {};
+    start: {};
+    started: {
+      type: 'compound';
+      initial: 'idle';
+      states: {
+        idle: {};
+      };
+    };
+  };
+}
+
+export type RenderStateConfig = MachineConfig<
+  SkNodeMachineContext,
+  SkNodeStateSchema,
+  SkNodeStateEvent
+>;
 
 export const skNodesMachine = createMachine<SkNodeMachineContext>(
   {
@@ -13,18 +47,31 @@ export const skNodesMachine = createMachine<SkNodeMachineContext>(
     initial: 'stop',
     context: {
       chain: new SkChain(),
+      chainOpts: {},
     },
     states: {
       stop: {
-        on: { 'START-CHAIN': { target: 'start' } },
+        on: {
+          [SkNodeEventType.START_CHAIN]: { target: 'start' },
+          [SkNodeEventType.CONFIG_CHAIN]: {
+            actions: assign({
+              chainOpts: (context, data) => {
+                return {
+                  ...context.chainOpts,
+                  ...data,
+                };
+              },
+            }),
+          },
+        },
       },
       start: {
         invoke: {
           id: 'init-sk',
           src: (context, event) => {
             return context.chain.init({
-              id: event.did,
-              privKey: event.priv,
+              id: event.id,
+              privKey: event.privKey,
             });
           },
           onDone: {
@@ -33,8 +80,8 @@ export const skNodesMachine = createMachine<SkNodeMachineContext>(
           },
           onError: {
             actions: (c, err) => {
-              console.error('init sk-chain err')
-              console.log(err)
+              console.error('init sk-chain err');
+              console.log(err);
             },
             target: 'stop',
           },
@@ -47,7 +94,9 @@ export const skNodesMachine = createMachine<SkNodeMachineContext>(
         states: {
           idle: {
             type: 'atomic',
-            entry: () => {
+            entry: (context) => {
+              const { forceReady } = context.chainOpts;
+              context.chain.sk.consensus.setIsReady(Boolean(forceReady));
               console.log('started-------idle');
             },
             // on: {

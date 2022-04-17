@@ -1,7 +1,7 @@
 import { Button, Input } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useMachine } from '@xstate/react';
-import { skNodesMachine } from './index.state';
+import { SkNodeEventType, skNodesMachine } from './index.state';
 import './index.scss';
 import { accounts } from './accounts';
 import { skCacheKeys } from 'sk-chain';
@@ -16,22 +16,29 @@ import { historyAction } from '../../utils/history';
 
 export default function Home() {
   const [current, send] = useMachine(skNodesMachine, { devTools: xstateDev });
+  const started = current.matches('started');
+  const [t] = useTranslation();
+  const start = current.matches('start');
+  const { chain } = current.context;
   useEffect(() => {
     // 方便调试，自动启动节点
     const autoStart = +historyAction.pullHashParam('autoStart');
+    const forceReady = historyAction.pullHashParam('forceReady');
     if (!isNaN(autoStart) && accounts[autoStart]) {
       setTimeout(() => {
-        send('START-CHAIN', {
+        send(SkNodeEventType.START_CHAIN, {
           did: accounts[autoStart].id,
           priv: accounts[autoStart].privKey,
         });
       }, 4000);
     }
+
+    // 如果是新链，forceReady强制节点为ready状态启动
+    send(SkNodeEventType.CONFIG_CHAIN, {
+      forceReady,
+    });
   }, []);
-  const started = current.matches('started');
-  const [t] = useTranslation();
-  const start = current.matches('start');
-  const { chain } = current.context;
+
   // const [priv, setpriv] = useState('');
   return (
     <div className="home-box">
@@ -48,7 +55,7 @@ export default function Home() {
               {!started && !start && (
                 <Button
                   onClick={() => {
-                    send('START-CHAIN', { did: ele.id, priv: ele.privKey });
+                    send(SkNodeEventType.START_CHAIN, ele);
                   }}
                 >
                   {t(lanKeys.start)}
