@@ -5,6 +5,7 @@ import { useMachine } from '@xstate/react';
 import { useTranslation } from 'react-i18next';
 import { Modal } from 'antd';
 import { lanKeys } from './index.i18n';
+import { JsonView } from '../../../../components/JsonView';
 
 export default function RepoStatus() {
   const [current] = useMachine(skNodesMachine);
@@ -34,7 +35,7 @@ export default function RepoStatus() {
       <h3>{t(lanKeys.repoStatus)}</h3>
 
       <div className="status-item">
-        <pre>{JSON.stringify(repoStatus, null, 2)}</pre>
+        {repoStatus && <JsonView data={repoStatus} />}
       </div>
 
       {showBlock && (

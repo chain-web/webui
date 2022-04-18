@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { lanKeys } from './index.i18n';
 import { historyAction } from '../../utils/history';
 import RepoStatus from './components/repoStatus';
+import StateRootStatus from './components/stateRootStatus';
 
 export default function Home() {
   const [current, send] = useMachine(skNodesMachine, { devTools: xstateDev });
@@ -27,10 +28,7 @@ export default function Home() {
     const forceReady = historyAction.pullHashParam('forceReady');
     if (!isNaN(autoStart) && accounts[autoStart]) {
       setTimeout(() => {
-        send(SkNodeEventType.START_CHAIN, {
-          did: accounts[autoStart].id,
-          priv: accounts[autoStart].privKey,
-        });
+        send(SkNodeEventType.START_CHAIN, accounts[autoStart]);
       }, 4000);
     }
 
@@ -75,6 +73,7 @@ export default function Home() {
           {started && <Button type="ghost">{t(lanKeys.started)}</Button>}
           {started && <NodeStatus />}
           {started && <RepoStatus />}
+          {started && <StateRootStatus />}
         </div>
       </div>
       {<Transaction />}
