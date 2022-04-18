@@ -70,8 +70,8 @@ export const skNodesMachine = createMachine<SkNodeMachineContext>(
           id: 'init-sk',
           src: (context, event) => {
             return context.chain.init({
-              id: event.id,
-              privKey: event.privKey,
+              id: event.did,
+              privKey: event.priv,
             });
           },
           onDone: {

@@ -13,6 +13,7 @@ import ChangeI18n from '../../config/i18n/i18nSelect';
 import { useTranslation } from 'react-i18next';
 import { lanKeys } from './index.i18n';
 import { historyAction } from '../../utils/history';
+import RepoStatus from './components/repoStatus';
 
 export default function Home() {
   const [current, send] = useMachine(skNodesMachine, { devTools: xstateDev });
@@ -73,6 +74,7 @@ export default function Home() {
           {started && <p>{chain.sk.db.cache.get(skCacheKeys.accountId)}</p>}
           {started && <Button type="ghost">{t(lanKeys.started)}</Button>}
           {started && <NodeStatus />}
+          {started && <RepoStatus />}
         </div>
       </div>
       {<Transaction />}
