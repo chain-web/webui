@@ -8,37 +8,43 @@ import { lanKeys } from './index.i18n';
 import { JsonView } from '../../../../components/JsonView';
 import { CID } from 'sk-chain';
 
-export default function StateRootStatus() {
+export default function BlockStatus() {
   const [current] = useMachine(skNodesMachine);
   const [t] = useTranslation();
-  const [time, settime] = useState<NodeJS.Timeout>();
-  const [accounts, setAccounts] = useState<object>({});
+  const [blocks, setBlocks] = useState<object>({});
   const [showBlock, setshowBlock] = useState(false);
   useEffect(() => {}, []);
 
   const node = current.context.chain.sk;
   const getHeaderBlock = () => {
-    node.getHeaderBlock().then((res) => {
-      node.db.dag.get(CID.parse(res.header.stateRoot)).then((res) => {
-        const len = res.value.Links.length;
-        Promise.all(
-          res.value.Links.map((item: any) => {
-            return node.db.dag.get(item.Hash);
-          }),
-        ).then((res) => {
+    const setGets: any[] = [];
+    const blockGets: any[] = [];
+    node.blockService.blockRoot.rootNode.Links.forEach((set) => {
+      setGets.push(node.db.dag.get(set.Hash));
+    });
+
+    Promise.all(setGets)
+      .then((res) => {
+        res.forEach((set) => {
+          set.value.forEach((blockCid: string) => {
+            blockGets.push(node.db.dag.get(CID.parse(blockCid)));
+          });
+        });
+      })
+      .then(() => {
+        Promise.all(blockGets).then((res) => {
           const obj: any = {};
           res.map((ele: { value: any }) => {
-            obj[ele.value[0]] = ele.value;
+            obj[ele.value.hash] = ele.value;
           });
           setshowBlock(true);
-          setAccounts(obj);
+          setBlocks(obj);
         });
       });
-    });
   };
   return (
     <div className="status-box">
-      <h3>{t(lanKeys.stateRootStatus)}</h3>
+      <h3>{t(lanKeys.blockStatus)}</h3>
 
       <div className="status-item">
         <Button onClick={getHeaderBlock}>👀</Button>
@@ -48,14 +54,14 @@ export default function StateRootStatus() {
         <Modal
           visible={true}
           width={800}
-          title={t(lanKeys.stateRootStatus)}
+          title={t(lanKeys.blockStatus)}
           onCancel={() => {
             setshowBlock(false);
           }}
           footer={null}
           className=""
         >
-          {accounts && <JsonView data={accounts} />}
+          {blocks && <JsonView data={blocks} />}
         </Modal>
       )}
     </div>

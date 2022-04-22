@@ -15,6 +15,7 @@ import { lanKeys } from './index.i18n';
 import { historyAction } from '../../utils/history';
 import RepoStatus from './components/repoStatus';
 import StateRootStatus from './components/stateRootStatus';
+import BlockStatus from './components/blockStatus';
 
 export default function Home() {
   const [current, send] = useMachine(skNodesMachine, { devTools: xstateDev });
@@ -74,6 +75,7 @@ export default function Home() {
           {started && <NodeStatus />}
           {started && <RepoStatus />}
           {started && <StateRootStatus />}
+          {started && <BlockStatus />}
         </div>
       </div>
       {<Transaction />}
