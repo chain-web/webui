@@ -16,6 +16,7 @@ import { historyAction } from '../../utils/history';
 import RepoStatus from './components/repoStatus';
 import StateRootStatus from './components/stateRootStatus';
 import BlockStatus from './components/blockStatus';
+import TransactionStatus from './components/transactionStatus';
 
 export default function Home() {
   const [current, send] = useMachine(skNodesMachine, { devTools: xstateDev });
@@ -76,6 +77,7 @@ export default function Home() {
           {started && <RepoStatus />}
           {started && <StateRootStatus />}
           {started && <BlockStatus />}
+          {started && <TransactionStatus />}
         </div>
       </div>
       {<Transaction />}

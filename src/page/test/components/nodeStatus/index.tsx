@@ -47,6 +47,10 @@ export default function NodeStatus() {
         <span>{node.consensus.slice.syncing ? 'syncing' : ''}</span>
       </div>
       <div className="status-item">
+        <span>{t(lanKeys.consensusStatus)}: </span>
+        <span>{node.consensus.isReady() ? 'ready' : 'no ready'}</span>
+      </div>
+      <div className="status-item">
         <span>{t(lanKeys.slicePeerSize)}: </span>
         <span>{node.consensus.slice.curPeers.size}</span>
         <Button
