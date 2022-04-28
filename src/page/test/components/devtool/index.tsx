@@ -5,6 +5,7 @@ import { skNodesMachine } from '../../index.state';
 import { useMachine } from '@xstate/react';
 import './index.scss';
 import { CID } from 'sk-chain';
+import { deepGetCid } from './devtool.service';
 
 export default function Devtool() {
   const [current] = useMachine(skNodesMachine);
@@ -45,7 +46,7 @@ export default function Devtool() {
         />
         <Button
           onClick={() => {
-            current.context.chain.sk.db.dag.get(CID.parse(cid)).then((res) => {
+            deepGetCid(current.context.chain.sk.db, CID.parse(cid)).then((res) => {
               setData(res);
             });
           }}
