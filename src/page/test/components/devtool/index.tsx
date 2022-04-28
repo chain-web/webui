@@ -1,8 +1,15 @@
-import { Button, message } from 'antd';
-import React from 'react';
+import { Button, Input, message } from 'antd';
+import React, { useState } from 'react';
+import { JsonView } from '../../../../components/JsonView';
+import { skNodesMachine } from '../../index.state';
+import { useMachine } from '@xstate/react';
 import './index.scss';
+import { CID } from 'sk-chain';
 
 export default function Devtool() {
+  const [current] = useMachine(skNodesMachine);
+  const [cid, setCid] = useState('');
+  const [data, setData] = useState({});
   return (
     <div className="devtool-box">
       <h3>devtools</h3>
@@ -28,6 +35,25 @@ export default function Devtool() {
           清除缓存(localStorage)
         </Button>
       </div>
+      <h4>db</h4>
+      <div className="get-dag-cid">
+        <Input
+          value={cid}
+          onChange={(e) => {
+            setCid(e.target.value);
+          }}
+        />
+        <Button
+          onClick={() => {
+            current.context.chain.sk.db.dag.get(CID.parse(cid)).then((res) => {
+              setData(res);
+            });
+          }}
+        >
+          get dag cid
+        </Button>
+      </div>
+      <JsonView data={data} />
     </div>
   );
 }
