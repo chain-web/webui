@@ -11,5 +11,3 @@ export class SkChain {
     this.started = true;
   };
 }
-
-// export const skChain = new SkChain();

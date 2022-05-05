@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { skNodesMachine } from '../../index.state';
+import { skNodesMachine } from '../../../../state/sk.state';
 import './index.scss';
 import { useMachine } from '@xstate/react';
 import { useTranslation } from 'react-i18next';

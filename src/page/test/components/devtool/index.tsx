@@ -1,7 +1,7 @@
 import { Button, Input, message } from 'antd';
 import React, { useState } from 'react';
 import { JsonView } from '../../../../components/JsonView';
-import { skNodesMachine } from '../../index.state';
+import { skNodesMachine } from '../../../../state/sk.state';
 import { useMachine } from '@xstate/react';
 import './index.scss';
 import { CID } from 'sk-chain';
