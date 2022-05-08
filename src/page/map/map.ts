@@ -98,6 +98,17 @@ export class MapAction {
     if (isMobile) {
       return;
     }
+    if (!this.map.isStyleLoaded()) {
+      // 确保map的资源已经加载完成，不然addSource会失败
+      await new Promise((reslove) => {
+        setTimeout(() => {
+          this.addDefaultHexLayer(LngLat).then(() => {
+            reslove(1);
+          })
+        }, 100);
+      })
+      return;
+    }
     const id = 'defaultHexLayer';
     this.map.addSource(id, {
       type: 'geojson',
