@@ -1,20 +1,11 @@
+import { useMachine } from '@xstate/react';
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { d3Server } from '../../../../d3server/lib';
-import { ReduxStoreState, useAction } from '../../../../store';
-import { homeActions } from '../../../../store/home';
+import { MapEventType, mapMachine } from '../../map.state';
 import './index.less';
 
 export default function GridDrawer() {
-  const { showGridDetail, activeHex } = useSelector(
-    (store: ReduxStoreState) => store.home,
-  );
-  const { updateStore } = useAction(homeActions);
-
-  useEffect(() => {
-    d3Server;
-  }, []);
-
+  const [current, send] = useMachine(mapMachine);
+  const { activeHex, showGridDetail } = current.context.grid;
   return (
     <div
       style={{ bottom: showGridDetail ? '0px' : '-256px' }}
@@ -24,13 +15,13 @@ export default function GridDrawer() {
         <div className="grid-msg-content">
           <span
             onClick={() => {
-              updateStore({ showGridDetail: false });
+              send(MapEventType.UPDATE_GRID, { showGridDetail: false });
             }}
           >
             close
           </span>
           <p>ID: {activeHex.hex.hexid}</p>
-          <p>富饶度：1</p>
+          <p>富饶度: 1</p>
           <p>所有者：无</p>
         </div>
       )}

@@ -1,7 +1,7 @@
 import { Tabs } from 'antd';
 import React from 'react';
 import GridDrawer from '../GridDrawer';
-import './index.less';
+import './index.scss';
 
 const TabPane = Tabs.TabPane;
 export default function Tabbar() {

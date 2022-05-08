@@ -1,33 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import './index.less';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import './index.scss';
 import Tabbar from './components/Tabbar';
 import NeedPremission from './components/needPremission';
-import Login from './components/Login';
-import { MapService } from 'sk-gridmap';
-
-const Home = () => {
-  const [hasPremission, setHasPremission] = useState(false);
-  const [mapService, setMapService] = useState<MapService>()
+import { MapOption, MapService } from 'sk-gridmap';
+import { useMachine } from '@xstate/react';
+import { MapEventType, mapMachine } from './map.state';
+import { xstateDev } from '../../config';
+export const mapBoxPk =
+  'pk.eyJ1Ijoic2NjLW1hcGJveCIsImEiOiJja292MGsxNXgwMzl0MnZxczJ1ZHJ6MXNhIn0.BP99qksZP77yNqFTyfz_rw';
+export const MapBox = () => {
+  const [current, send] = useMachine(mapMachine, { devTools: xstateDev });
   useEffect(() => {
-    setMapService(new MapService({
+    const mapOption: MapOption = {
       container: 'map-container',
-      mapBoxPk: ''
-    }))
- 
-    // mapService.initPosition((data) => {
-    //   setHasPremission(true);
-    //   mapAction.addDefaultHexLayer(data);
-    // });
-    // mapAction.bindClickEvent();
+      mapBoxPk,
+    };
+    send(MapEventType.INIT_MAP, { data: mapOption });
   }, []);
 
   return (
     <div className="home-box">
       <Tabbar />
-      <Login />
-      {!hasPremission && <NeedPremission />}
+      {/* <Login /> */}
+      {!current.context.hasPremission && <NeedPremission />}
     </div>
   );
 };
-
-export default Home;

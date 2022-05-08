@@ -46,7 +46,7 @@ import { Map } from 'mapbox-gl';
 // };
 
 export const preLoadMapSource = async (map: Map) => {
-  const imgMap = {
+  const imgMap: any = {
     farmIcon: { url: 'farm.png' },
   };
   await Promise.all(
@@ -57,7 +57,7 @@ export const preLoadMapSource = async (map: Map) => {
           if (e) {
             console.error('load img', item.url, 'err:', e);
           }
-          map.addImage(key, res);
+          map.addImage(key, res as ImageBitmap);
           reslove(true);
         });
       });

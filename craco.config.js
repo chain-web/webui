@@ -2,7 +2,8 @@ const CracoEsbuildPlugin = require('craco-esbuild');
 
 module.exports = {
   plugins: [
-    { plugin: CracoEsbuildPlugin },
+    // 会导致import.meta为空，暂时关闭
+    // { plugin: CracoEsbuildPlugin },
     {
       plugin: {
         overrideWebpackConfig: ({

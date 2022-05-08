@@ -1,22 +1,16 @@
 import { Map } from 'mapbox-gl';
-import { HomeActionsIProps } from '../../store/home';
-import { hexService } from '../../mapUtil/hex';
-
-interface MapActionOption {
-  storeAction: HomeActionsIProps;
-}
+import { isMobile } from '../../config';
+import { MapEventType, mapService } from './map.state';
 
 export class MapAction {
-  constructor(map: Map, option: MapActionOption) {
+  constructor(map: Map) {
     this.map = map;
-    this.storeAction = option.storeAction;
     this.init();
   }
   map: Map;
-  storeAction: HomeActionsIProps;
   clearMap = {
-    source: null,
-    fill: null,
+    source: '',
+    fill: '',
   };
 
   init = async () => {};
@@ -24,16 +18,19 @@ export class MapAction {
   bindClickEvent = async () => {
     this.map.on('click', async (e) => {
       // console.log(e.lngLat);
-      const hex = await hexService.genHexByLngLat(e.lngLat);
+
+      const hex = await mapService.machine.context.hexService.genHexByLngLat(
+        e.lngLat,
+      );
       // console.log(hex);
       const id = hex.hexid;
       if (this.clearMap.fill) {
         this.map.removeLayer(this.clearMap.fill);
-        this.clearMap.fill = null;
+        this.clearMap.fill = '';
       }
       if (this.clearMap.source) {
         this.map.removeSource(this.clearMap.source);
-        this.clearMap.source = null;
+        this.clearMap.source = '';
       }
       this.map.addSource(id, {
         type: 'geojson',
@@ -89,14 +86,16 @@ export class MapAction {
       //     'fill-opacity': 1,
       //   },
       // });
-      this.storeAction.updateStore({ showGridDetail: true });
-      this.storeAction.updateActiveHex(hex);
+      mapService.send(MapEventType.UPDATE_GRID, {
+        showGridDetail: true,
+        activeHex: hex,
+      });
     });
   };
 
   // 添加默认的hover层，仅在pc下添加
   addDefaultHexLayer = async (LngLat: number[]) => {
-    const list = await hexService.genCurHex(LngLat);
+    const list = await mapService.machine.context.hexService.genCurHex(LngLat);
     if (isMobile) {
       return;
     }
@@ -105,7 +104,7 @@ export class MapAction {
       type: 'geojson',
       data: {
         type: 'FeatureCollection',
-        features: list.map((ele) => {
+        features: list.map((ele: any) => {
           return {
             type: 'Feature',
             id: ele.hexid
@@ -139,10 +138,10 @@ export class MapAction {
         ],
       },
     });
-    let hoveredStateId = null;
+    let hoveredStateId: any = null;
     // 鼠标移入
     this.map.on('mousemove', `${id}-fills`, (e) => {
-      if (e.features.length > 0) {
+      if (e.features && e.features.length > 0) {
         if (hoveredStateId !== null) {
           this.map.setFeatureState(
             { source: id, id: hoveredStateId },
