@@ -87,8 +87,7 @@ export class MapAction {
       //   },
       // });
       mapService.send(MapEventType.UPDATE_GRID, {
-        showGridDetail: true,
-        activeHex: hex,
+        data: { showGridDetail: true, activeHex: hex },
       });
     });
   };

@@ -1,5 +1,5 @@
 import { Tabs } from 'antd';
-import React from 'react';
+import TestPage from '../../../test';
 import GridDrawer from '../GridDrawer';
 import './index.scss';
 
@@ -12,8 +12,8 @@ export default function Tabbar() {
           <div id="map-container" />
           <GridDrawer />
         </TabPane>
-        <TabPane className="tabbar-item-box" tab="Tab 2" key="2">
-          Content of Tab 2
+        <TabPane style={{overflow: 'auto'}} className="tabbar-item-box" tab="node" key="node">
+          <TestPage />
         </TabPane>
         <TabPane tab="Tab 3" className="tabbar-item-box" key="3">
           Content of Tab 3

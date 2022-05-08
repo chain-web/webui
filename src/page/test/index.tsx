@@ -18,7 +18,7 @@ import StateRootStatus from './components/stateRootStatus';
 import BlockStatus from './components/blockStatus';
 import TransactionStatus from './components/transactionStatus';
 
-export default function Home() {
+export default function TestPage() {
   const [current, send] = useMachine(skNodesMachine, { devTools: xstateDev });
   const started = current.matches('started');
   const [t] = useTranslation();
@@ -42,7 +42,7 @@ export default function Home() {
 
   // const [priv, setpriv] = useState('');
   return (
-    <div className="home-box">
+    <div className="test-box">
       <ChangeI18n />
       <div className="home-start-node">
         {accounts.map((ele) => {

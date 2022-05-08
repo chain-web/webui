@@ -1,5 +1,4 @@
-import { message } from 'antd';
-import { MapService, MapOption, HexService } from 'sk-gridmap';
+import { MapService, MapOption, HexService, HexItem } from 'sk-gridmap';
 import {
   assign,
   createMachine,
@@ -15,7 +14,7 @@ interface MapMachineContext {
   mapAction: MapAction;
   grid: {
     showGridDetail: boolean;
-    activeHex: any;
+    activeHex: HexItem;
   };
 }
 
@@ -60,7 +59,7 @@ const mapMachineConfig: MapStateConfig = {
     ),
     mapAction: undefined as unknown as MapAction,
     grid: {
-      activeHex: {},
+      activeHex: undefined as unknown as HexItem,
       showGridDetail: false,
     },
   },
@@ -81,12 +80,13 @@ const mapMachineConfig: MapStateConfig = {
     },
     inited: {
       entry: (ctx) => {
-        ctx.map.initPosition((data) => {
-          assign({ hasPremission: () => true });
-          ctx.mapAction.addDefaultHexLayer(data);
-        });
         ctx.mapAction = new MapAction(ctx.map.map);
-        ctx.mapAction.bindClickEvent();
+        ctx.hasPremission = true;
+        ctx.map.initPosition((data) => {
+          ctx.mapAction.addDefaultHexLayer(data).then(() => {
+            ctx.mapAction.bindClickEvent();
+          });
+        });
       },
       on: {
         [MapEventType.UPDATE_GRID]: {
@@ -97,7 +97,6 @@ const mapMachineConfig: MapStateConfig = {
               },
             }),
           ],
-          target: 'inited',
         },
       },
     },
@@ -107,3 +106,5 @@ const mapMachineConfig: MapStateConfig = {
 export const mapMachine = createMachine(mapMachineConfig);
 
 export const mapService = interpret(mapMachine);
+
+mapService.start();
