@@ -1,4 +1,5 @@
 import { Tabs } from 'antd';
+import { Chat } from '../../../chat';
 import TestPage from '../../../test';
 import GridDrawer from '../GridDrawer';
 import './index.scss';
@@ -15,8 +16,8 @@ export default function Tabbar() {
         <TabPane style={{overflow: 'auto'}} className="tabbar-item-box" tab="node" key="node">
           <TestPage />
         </TabPane>
-        <TabPane tab="Tab 3" className="tabbar-item-box" key="3">
-          Content of Tab 3
+        <TabPane className="tabbar-item-box" tab="chat" key="chat">
+          <Chat />
         </TabPane>
       </Tabs>
     </div>
