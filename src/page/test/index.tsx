@@ -1,12 +1,11 @@
 import { Button, Input } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useMachine } from '@xstate/react';
-import { SkNodeEventType, skNodesMachine } from '../../state/sk.state';
+import React, { useEffect } from 'react';
+import { useActor } from '@xstate/react';
+import { SkNodeEventType, skService } from '../../state/sk.state';
 import './index.scss';
 import { accounts } from './accounts';
 import { skCacheKeys } from 'sk-chain';
 import Devtool from './components/devtool';
-import { xstateDev } from '../../config';
 import Transaction from './components/transaction';
 import NodeStatus from './components/nodeStatus';
 import ChangeI18n from '../../config/i18n/i18nSelect';
@@ -19,7 +18,7 @@ import BlockStatus from './components/blockStatus';
 import TransactionStatus from './components/transactionStatus';
 
 export default function TestPage() {
-  const [current, send] = useMachine(skNodesMachine, { devTools: xstateDev });
+  const [current] = useActor(skService);
   const started = current.matches('started');
   const [t] = useTranslation();
   const start = current.matches('start');
@@ -30,12 +29,12 @@ export default function TestPage() {
     const forceReady = historyAction.pullHashParam('forceReady');
     if (!isNaN(autoStart) && accounts[autoStart]) {
       setTimeout(() => {
-        send(SkNodeEventType.START_CHAIN, accounts[autoStart]);
+        skService.send(SkNodeEventType.START_CHAIN, accounts[autoStart]);
       }, 4000);
     }
 
     // 如果是新链，forceReady强制节点为ready状态启动
-    send(SkNodeEventType.CONFIG_CHAIN, {
+    skService.send(SkNodeEventType.CONFIG_CHAIN, {
       forceReady,
     });
   }, []);
@@ -56,7 +55,7 @@ export default function TestPage() {
               {!started && !start && (
                 <Button
                   onClick={() => {
-                    send(SkNodeEventType.START_CHAIN, ele);
+                    skService.send(SkNodeEventType.START_CHAIN, ele);
                   }}
                 >
                   {t(lanKeys.start)}

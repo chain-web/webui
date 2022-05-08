@@ -3,14 +3,14 @@ import Form, { useForm } from 'antd/lib/form/Form';
 import FormItem from 'antd/lib/form/FormItem';
 import React from 'react';
 import { accounts } from '../../accounts';
-import { skNodesMachine } from '../../../../state/sk.state';
+import { skService } from '../../../../state/sk.state';
 import { TRANS_AMOUNT, TRANS_TO } from './config';
 import './index.scss';
-import { useMachine } from '@xstate/react';
+import { useActor } from '@xstate/react';
 import BigNumber from 'bignumber.js';
 
 export default function Transaction() {
-  const [current] = useMachine(skNodesMachine);
+  const [current] = useActor(skService);
   const [form] = useForm();
   return (
     <div className="trans-box">
@@ -36,7 +36,7 @@ export default function Transaction() {
             current.context.chain.sk.transaction({
               amount: new BigNumber(form.getFieldValue(TRANS_AMOUNT)),
               recipient: form.getFieldValue(TRANS_TO),
-              payload: ''
+              payload: '',
             });
           }}
         >

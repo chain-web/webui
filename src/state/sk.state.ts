@@ -121,3 +121,5 @@ export const skNodesMachine = createMachine<SkNodeMachineContext>(
 );
 
 export const skService = interpret(skNodesMachine);
+
+skService.start();

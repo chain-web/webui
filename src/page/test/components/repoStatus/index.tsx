@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { skNodesMachine } from '../../../../state/sk.state';
+import { skService } from '../../../../state/sk.state';
 import './index.scss';
-import { useMachine } from '@xstate/react';
+import { useActor } from '@xstate/react';
 import { useTranslation } from 'react-i18next';
 import { Modal } from 'antd';
 import { lanKeys } from './index.i18n';
 import { JsonView } from '../../../../components/JsonView';
 
 export default function RepoStatus() {
-  const [current] = useMachine(skNodesMachine);
+  const [current] = useActor(skService);
   const [t] = useTranslation();
   const [time, settime] = useState<NodeJS.Timeout>();
   const [repoStatus, setRepoStatus] = useState<object>();

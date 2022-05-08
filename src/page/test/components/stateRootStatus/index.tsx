@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { skNodesMachine } from '../../../../state/sk.state';
+import { skService } from '../../../../state/sk.state';
 import './index.scss';
-import { useMachine } from '@xstate/react';
+import { useActor } from '@xstate/react';
 import { useTranslation } from 'react-i18next';
 import { Button, Modal } from 'antd';
 import { lanKeys } from './index.i18n';
@@ -9,7 +9,7 @@ import { JsonView } from '../../../../components/JsonView';
 import { CID } from 'sk-chain';
 
 export default function StateRootStatus() {
-  const [current] = useMachine(skNodesMachine);
+  const [current] = useActor(skService);
   const [t] = useTranslation();
   const [time, settime] = useState<NodeJS.Timeout>();
   const [accounts, setAccounts] = useState<object>({});

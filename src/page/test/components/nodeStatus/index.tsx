@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { skNodesMachine } from '../../../../state/sk.state';
+import { skService } from '../../../../state/sk.state';
 import './index.scss';
-import { useMachine } from '@xstate/react';
+import { useActor } from '@xstate/react';
 import { useTranslation } from 'react-i18next';
 import { Button, Modal } from 'antd';
 import { lanKeys } from './index.i18n';
 import { Block, Account } from 'sk-chain';
 
 export default function NodeStatus() {
-  const [current] = useMachine(skNodesMachine);
+  const [current] = useActor(skService);
   const [t] = useTranslation();
   const [time, settime] = useState<NodeJS.Timeout>();
   const [headerBlock, setHeaderBlock] = useState<Block>();
@@ -107,7 +107,10 @@ export default function NodeStatus() {
             <div className="pree-item" key={`${ele}`}>
               <p>{ele}: </p>
               <p>
-                [ready: {Boolean(node.consensus.slice.curPeers.get(ele)?.ready).toString()}
+                [ready:{' '}
+                {Boolean(
+                  node.consensus.slice.curPeers.get(ele)?.ready,
+                ).toString()}
                 ] active at{' '}
                 {Date.now() - (node.consensus.slice.curPeers.get(ele)?.ts || 0)}{' '}
                 ms ago
