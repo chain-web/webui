@@ -1,6 +1,12 @@
 import { message } from 'antd';
 import { DidJson } from 'sk-chain';
-import { assign, createMachine, MachineConfig, StateSchema } from 'xstate';
+import {
+  assign,
+  createMachine,
+  interpret,
+  MachineConfig,
+  StateSchema,
+} from 'xstate';
 import { SkChain } from './sk';
 interface SkNodeMachineContext {
   chain: SkChain;
@@ -113,3 +119,5 @@ export const skNodesMachine = createMachine<SkNodeMachineContext>(
     actions: {},
   },
 );
+
+export const skService = interpret(skNodesMachine);
