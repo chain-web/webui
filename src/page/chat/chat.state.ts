@@ -14,9 +14,12 @@ interface ChatMachineContext {
 
 export enum ChatEventType {
   'INIT_CHAT' = 'INIT_CHAT',
+  'ADD_MESSAGE' = 'ADD_MESSAGE',
 }
 
-export type ChatStateEvent = { type: ChatEventType.INIT_CHAT; data: SKChain };
+export type ChatStateEvent =
+  | { type: ChatEventType.INIT_CHAT; data: SKChain }
+  | { type: ChatEventType.ADD_MESSAGE; data: MessageItem };
 
 export interface ChatStateSchema extends StateSchema {
   initial: 'uninit';
@@ -56,8 +59,20 @@ const ChatMachineConfig: ChatStateConfig = {
     inited: {
       entry: (ctx) => {
         ctx.chat.listenMsg((msg) => {
-          ctx.msgList.push(msg);
+          chatService.send(ChatEventType.ADD_MESSAGE, { data: msg });
         });
+      },
+      on: {
+        [ChatEventType.ADD_MESSAGE]: {
+          actions: [
+            assign({
+              msgList: (ctx, event) => {
+                ctx.msgList.push(event.data);
+                return ctx.msgList;
+              },
+            }),
+          ],
+        },
       },
     },
   },
