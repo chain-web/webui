@@ -13,10 +13,10 @@ export default function Tabbar() {
           <div id="map-container" />
           <GridDrawer />
         </TabPane>
-        <TabPane style={{overflow: 'auto'}} className="tabbar-item-box" tab="node" key="node">
+        <TabPane forceRender style={{overflow: 'auto'}} className="tabbar-item-box" tab="node" key="node">
           <TestPage />
         </TabPane>
-        <TabPane className="tabbar-item-box" tab="chat" key="chat">
+        <TabPane forceRender className="tabbar-item-box" tab="chat" key="chat">
           <Chat />
         </TabPane>
       </Tabs>
