@@ -6,6 +6,7 @@ import {
   MachineConfig,
   StateSchema,
 } from 'xstate';
+import { skService } from '../../state/sk.state';
 import { ChatServer, MessageItem } from './chat.server';
 interface ChatMachineContext {
   chat: ChatServer;
@@ -83,3 +84,14 @@ export const ChatMachine = createMachine(ChatMachineConfig);
 export const chatService = interpret(ChatMachine);
 
 chatService.start();
+
+
+export const initChatService = () => {
+  skService.onTransition((e) => {
+    if (!chatService.machine.context.chat && e.matches('started')) {
+      chatService.send(ChatEventType.INIT_CHAT, {
+        data: e.context.chain.sk,
+      });
+    }
+  });
+}

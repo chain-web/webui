@@ -1,21 +1,14 @@
 import { useActor } from '@xstate/react';
 import { Input } from 'antd';
-import { useEffect, useState } from 'react';
-import { skService } from '../../state/sk.state';
-import { ChatEventType, chatService } from './chat.state';
+import { useState } from 'react';
+import { chatService, initChatService } from './chat.state';
+
+initChatService();
 
 export const Chat = () => {
-  const [current] = useActor(skService);
   const [{ context }] = useActor(chatService);
 
   const [ipt, setipt] = useState('');
-  useEffect(() => {
-    if (current.context.chain.started && !context.chat) {
-      chatService.send(ChatEventType.INIT_CHAT, {
-        data: current.context.chain.sk,
-      });
-    }
-  }, [current.context.chain.started]);
 
   if (!context.chat) {
     return null;
@@ -31,7 +24,9 @@ export const Chat = () => {
     >
       <div className="msg-list">
         {context.msgList.map((ele) => (
-          <div>{ele.from}: {ele.msg}</div>
+          <div>
+            {ele.from}: {ele.msg}
+          </div>
         ))}
       </div>
       <div
@@ -45,7 +40,7 @@ export const Chat = () => {
           }}
           value={ipt}
           onKeyPress={(e) => {
-            if (e.code === 'Enter') {
+            if (e.code === 'Enter' && ipt) {
               context.chat.sendMsg(ipt);
               setipt('');
             }
