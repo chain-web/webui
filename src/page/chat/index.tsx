@@ -31,7 +31,7 @@ export const Chat = () => {
     >
       <div className="msg-list">
         {context.msgList.map((ele) => (
-          <div>{ele.msg}</div>
+          <div>{ele.from}: {ele.msg}</div>
         ))}
       </div>
       <div
