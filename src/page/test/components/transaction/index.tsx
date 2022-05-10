@@ -36,7 +36,6 @@ export default function Transaction() {
             current.context.chain.sk.transaction({
               amount: new BigNumber(form.getFieldValue(TRANS_AMOUNT)),
               recipient: form.getFieldValue(TRANS_TO),
-              payload: '',
             });
           }}
         >
