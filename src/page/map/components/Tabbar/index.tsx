@@ -1,6 +1,7 @@
 import { Tabs } from 'antd';
 import { Chat } from '../../../chat';
 import TestPage from '../../../test';
+import { DeployContract } from '../../contract/deployContract';
 import GridDrawer from '../GridDrawer';
 import './index.scss';
 
@@ -14,6 +15,7 @@ export default function Tabbar() {
           <GridDrawer />
         </TabPane>
         <TabPane forceRender style={{overflow: 'auto'}} className="tabbar-item-box" tab="node" key="node">
+          <DeployContract />
           <TestPage />
         </TabPane>
         <TabPane forceRender className="tabbar-item-box" tab="chat" key="chat">
