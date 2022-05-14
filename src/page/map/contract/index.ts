@@ -1,4 +1,5 @@
 import { constractHelper, ConstractHelper } from 'sk-chain';
+import { factoryLevelUp } from './util';
 
 interface GridItemData {
   id: string;
@@ -16,7 +17,7 @@ interface UserData {
   };
 }
 
-class MapContract extends constractHelper.BaseContract {
+export default class MapContract extends constractHelper.BaseContract {
   constructor() {
     super();
     this.gridDb = constractHelper.createSliceDb<GridItemData>('base32');
@@ -47,6 +48,7 @@ class MapContract extends constractHelper.BaseContract {
     if (!item || item.level === 0 || item.owner !== this.msg.sender) {
       return;
     }
+    factoryLevelUp();
     if (this.userDb.get(this.msg.sender)) {
       //TODO 检查是否有足够的资源升级
       this.gridDb.set(did, {
@@ -84,5 +86,3 @@ class MapContract extends constractHelper.BaseContract {
     }
   };
 }
-
-export default MapContract;
