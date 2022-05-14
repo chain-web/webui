@@ -28,7 +28,7 @@ export default function GridDrawer() {
           <p>所有者：无</p>
           <p>
             <Button onClick={() => {
-              skService.machine.context.chain.sk.transaction({
+              skService.state.context.chain.sk.transaction({
                 recipient: '',
                 amount: new BigNumber(0),
                 payload: {

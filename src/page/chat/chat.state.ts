@@ -88,7 +88,7 @@ chatService.start();
 
 export const initChatService = () => {
   skService.onTransition((e) => {
-    if (!chatService.machine.context.chat && e.matches('started')) {
+    if (!chatService.state.context.chat && e.matches('started')) {
       chatService.send(ChatEventType.INIT_CHAT, {
         data: e.context.chain.sk,
       });

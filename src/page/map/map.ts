@@ -19,7 +19,7 @@ export class MapAction {
     this.map.on('click', async (e) => {
       // console.log(e.lngLat);
 
-      const hex = await mapService.machine.context.hexService.genHexByLngLat(
+      const hex = await mapService.state.context.hexService.genHexByLngLat(
         e.lngLat,
       );
       // console.log(hex);
@@ -94,7 +94,7 @@ export class MapAction {
 
   // 添加默认的hover层，仅在pc下添加
   addDefaultHexLayer = async (LngLat: number[]) => {
-    const list = await mapService.machine.context.hexService.genCurHex(LngLat);
+    const list = await mapService.state.context.hexService.genCurHex(LngLat);
     if (isMobile) {
       return;
     }
