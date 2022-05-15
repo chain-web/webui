@@ -17,7 +17,7 @@ interface UserData {
   };
 }
 
-export default class MapContract extends constractHelper.BaseContract {
+export default class Contract extends constractHelper.BaseContract {
   constructor() {
     super();
     this.gridDb = constractHelper.createSliceDb<GridItemData>('base32');
@@ -70,7 +70,7 @@ export default class MapContract extends constractHelper.BaseContract {
       if (gap > 0) {
         level = Math.floor(Math.sqrt(Math.floor(gap / 1000 / 60 / 60 / 10)));
       }
-      while (gap > MapContract.levelBase) {
+      while (gap > Contract.levelBase) {
         gap -= Math.pow(2, level)
         level--;
       }
