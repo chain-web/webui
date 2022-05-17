@@ -30,8 +30,9 @@ export default class Contract extends constractHelper.BaseContract {
 
   toOwn = (hexid: string) => {
     const did = constractHelper.hash(hexid);
+    // constractHelper.log(did);
     this.checkLevelDown(did);
-    if (!this.gridDb[did] || this.gridDb[did].level === 0) {
+    if (this.gridDb[did] && this.gridDb[did].level !== 0) {
       return;
     }
     this.gridDb[did] = {
