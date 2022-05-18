@@ -3,6 +3,7 @@ import { Button } from 'antd';
 import BigNumber from 'bignumber.js';
 import { skService } from '../../../../state/sk.state';
 import { MapEventType, mapService } from '../../map.state';
+import { contractAddressKey } from '../Tabbar';
 import './index.scss';
 
 export default function GridDrawer() {
@@ -29,7 +30,7 @@ export default function GridDrawer() {
           <p>
             <Button onClick={() => {
               skService.state.context.chain.sk.transaction({
-                recipient: '',
+                recipient: localStorage.getItem(contractAddressKey)!,
                 amount: new BigNumber(0),
                 payload: {
                   mothed: 'toOwn',
