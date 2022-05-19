@@ -6,24 +6,17 @@ import './index.scss';
 import CtrClass from '../../contract/index';
 import CtrCode from '../../contract/index.contract';
 import { DeployContract } from '../../../test/components/contract/DeployContract';
+import { TestContract } from '../../../test/components/contract/TestContract';
 
 export const contractAddressKey = 'map-contract-address';
 
 const TabPane = Tabs.TabPane;
 const DeployContractComp = DeployContract(CtrClass, CtrCode);
+const TestContractComp = TestContract(CtrClass, CtrCode);
 export default function Tabbar() {
   return (
     <div className="tabbar-box">
-      <Tabs tabPosition={'bottom'} defaultActiveKey="home">
-        <TabPane tab="home" key="home" className="tabbar-item-box">
-          <DeployContractComp
-            onSuccess={(account) => {
-              localStorage.setItem(contractAddressKey, account.account);
-            }}
-          />
-          <div id="map-container" />
-          <GridDrawer />
-        </TabPane>
+      <Tabs tabPosition={'bottom'} defaultActiveKey="node">
         <TabPane
           forceRender
           style={{ overflow: 'auto' }}
@@ -31,8 +24,19 @@ export default function Tabbar() {
           tab="node"
           key="node"
         >
+          <DeployContractComp
+            onSuccess={(account) => {
+              localStorage.setItem(contractAddressKey, account.account);
+            }}
+          />
+          <TestContractComp />
           <TestPage />
         </TabPane>
+        <TabPane forceRender tab="home" key="home" className="tabbar-item-box">
+          <div id="map-container" />
+          <GridDrawer />
+        </TabPane>
+
         <TabPane forceRender className="tabbar-item-box" tab="chat" key="chat">
           <Chat />
         </TabPane>

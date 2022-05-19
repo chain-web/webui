@@ -30,7 +30,7 @@ export const TestContract = (CodeClass: any, contractCode: Uint8Array) => {
               });
           }}
         >
-          deploy
+          deploy test
         </Button>
         <div>
           func:
