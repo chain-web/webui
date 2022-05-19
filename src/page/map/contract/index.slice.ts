@@ -23,6 +23,10 @@ interface UserData {
 export default class Contract extends constractHelper.BaseContract {
   constructor() {
     super();
+    // 数据的存储分片还是需要的
+    // 真实存在链上的数据kv结构，key 暂定，可能需要方便进行分片，可能是 const did = constractHelper.hash(hexid);
+    // value是dag put的cid
+    // 外部应用方便直接用dag get，来获取数据
     this.gridDb = constractHelper.createSliceDb<GridItemData>('base32');
     this.userDb = constractHelper.createSliceDb<UserData>('base58');
   }
