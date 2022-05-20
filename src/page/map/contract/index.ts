@@ -1,7 +1,7 @@
 import { ConstractHelper, constractHelper } from 'sk-chain';
 import { factoryLevelUp } from './util';
 
-interface GridItemData {
+export interface GridItemData {
   id: string;
   owner: string;
   level: number;
