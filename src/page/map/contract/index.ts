@@ -1,34 +1,19 @@
 import { ConstractHelper, constractHelper } from 'sk-chain';
+import { GridItemData, GridType, UserData } from './interface';
 import { factoryLevelUp } from './util';
 
-export interface GridItemData {
-  id: string;
-  owner: string;
-  level: number;
-  uTime: number;
-}
-
-interface UserData {
-  rs: {
-    coin: BigInt;
-    clay: BigInt;
-    coal: BigInt;
-    blocks: BigInt;
-  };
-}
-
-export default class Contract extends constractHelper.BaseContract {
+export class Contract extends constractHelper.BaseContract {
   constructor() {
     super();
     this.gridDb = constractHelper.createSliceDb<GridItemData>('base32');
     this.userDb = {};
   }
-  userDb: { [key: string]: UserData };
-  gridDb: ConstractHelper.SliceDb<GridItemData>;
+  private userDb: { [key: string]: UserData };
+  private gridDb: ConstractHelper.SliceDb<GridItemData>;
 
   static levelBase = 3600 * 24 * 1000;
 
-  toOwn = (hexid: string) => {
+  public toOwn = (hexid: string) => {
     const did = constractHelper.hash(hexid);
     this.checkLevelDown(did);
 
@@ -44,7 +29,22 @@ export default class Contract extends constractHelper.BaseContract {
     });
   };
 
-  levelUp = (did: string) => {
+  public changeGridType = (hexid: string, type: GridType) => {
+    const did = constractHelper.hash(hexid);
+    this.checkLevelDown(did);
+    const item = this.gridDb.get(did);
+    if (item && item.owner !== this.msg.sender) {
+      return;
+    }
+
+    this.gridDb.set(did, {
+      ...item,
+      type,
+      uTime: this.msg.ts,
+    });
+  };
+
+  public levelUp = (did: string) => {
     this.checkLevelDown(did);
     const item = this.gridDb.get(did);
     if (!item || item.level === 0 || item.owner !== this.msg.sender) {
@@ -61,7 +61,7 @@ export default class Contract extends constractHelper.BaseContract {
     }
   };
 
-  checkLevelDown = (did: string) => {
+  private checkLevelDown = (did: string) => {
     // TODO add contract 定时任务?
     //
     // 或者是有另一种解决方案，在每次读取grid时checkLevelDown,目前先用这个实现

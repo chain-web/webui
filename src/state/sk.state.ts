@@ -124,4 +124,4 @@ export const skService = interpret(skNodesMachine);
 
 skService.start();
 
-export const getSelfDid = () => skService.state.context.chain.sk.did;
+export const getSelfDid = () => skService.state.context.chain.sk?.did;

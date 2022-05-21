@@ -67,7 +67,7 @@ export const TestContract = (CodeClass: any, contractCode: Uint8Array) => {
                   recipient: account,
                   payload: {
                     mothed: func,
-                    args: [arg],
+                    args: [...arg.split(',')],
                   },
                 })
                 .then((res: any) => {
