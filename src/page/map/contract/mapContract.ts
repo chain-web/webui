@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { SKChain } from 'sk-chain';
+import { Address, SKChain } from 'sk-chain';
 import { Contract } from '.';
 import { skService } from '../../../state/sk.state';
 export const contractAddressKey = 'map-contract-address';
@@ -18,7 +18,7 @@ export const createContractService = <T>(
       get(_obj, mothed: string) {
         return (...arg: any) => {
           chain.transaction({
-            recipient: address,
+            recipient: new Address(address),
             amount: opts?.amount || new BigNumber(0),
             payload: {
               mothed,

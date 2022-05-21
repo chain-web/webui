@@ -25,7 +25,7 @@ export default function Tabbar() {
         >
           <DeployContractComp
             onSuccess={(account) => {
-              localStorage.setItem(contractAddressKey, account.account);
+              localStorage.setItem(contractAddressKey, account.account.address);
             }}
           />
           <TestContractComp />

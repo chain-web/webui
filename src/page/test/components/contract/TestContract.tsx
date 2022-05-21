@@ -3,13 +3,13 @@ import { useActor } from '@xstate/react';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
 import { skService } from '../../../../state/sk.state';
-import { Account } from 'sk-chain';
+import { Account, Address } from 'sk-chain';
 
 export const TestContract = (CodeClass: any, contractCode: Uint8Array) => {
   const codeClass = new CodeClass();
   return function TestContractComp(props: {onSuccess?: (account: Account) => void}) {
     const [{ context }] = useActor(skService);
-    const [account, setaccount] = useState('');
+    const [account, setaccount] = useState<Address>();
     const [func, setfunc] = useState('');
     const [arg, setarg] = useState('');
 
@@ -64,7 +64,7 @@ export const TestContract = (CodeClass: any, contractCode: Uint8Array) => {
               skService.state.context.chain.sk.transTest
                 .transaction({
                   amount: new BigNumber(0),
-                  recipient: account,
+                  recipient: account!,
                   payload: {
                     mothed: func,
                     args: [...arg.split(',')],
