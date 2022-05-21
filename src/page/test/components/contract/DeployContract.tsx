@@ -1,6 +1,5 @@
-import { Button, Input, message, Select } from 'antd';
+import { Button, message } from 'antd';
 import { useActor } from '@xstate/react';
-import { useState } from 'react';
 import { skService } from '../../../../state/sk.state';
 import { Account } from 'sk-chain';
 
