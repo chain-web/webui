@@ -2,8 +2,7 @@ import BigNumber from 'bignumber.js';
 import { SKChain } from 'sk-chain';
 import { Contract } from '.';
 import { skService } from '../../../state/sk.state';
-import { contractAddressKey } from '../components/Tabbar';
-
+export const contractAddressKey = 'map-contract-address';
 interface ContractOptions {
   amount?: BigNumber;
 }

@@ -7,8 +7,7 @@ import { Contract as CtrClass } from '../../contract/index';
 import CtrCode from '../../contract/index.contract';
 import { DeployContract } from '../../../test/components/contract/DeployContract';
 import { TestContract } from '../../../test/components/contract/TestContract';
-
-export const contractAddressKey = 'map-contract-address';
+import { contractAddressKey } from '../../contract/mapContract';
 
 const TabPane = Tabs.TabPane;
 const DeployContractComp = DeployContract(CtrClass, CtrCode);

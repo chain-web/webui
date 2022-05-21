@@ -2,8 +2,8 @@ import { bytes, CID, ConstractHelper } from 'sk-chain';
 import { skService } from '../../../../state/sk.state';
 import { sha256 } from 'multiformats/hashes/sha2';
 import { message } from 'antd';
-import { contractAddressKey } from '../Tabbar';
 import { GridItemData } from '../../contract/interface';
+import { contractAddressKey } from '../../contract/mapContract';
 export const getGridData = async (
   hexid: string,
 ): Promise<GridItemData | undefined> => {
