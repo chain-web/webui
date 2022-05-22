@@ -25,7 +25,7 @@ export const TestContract = (CodeClass: any, contractCode: Uint8Array) => {
                 setaccount(account.account);
                 props.onSuccess && props.onSuccess(account);
                 message.info(
-                  'deploy trans send, contract address: ' + account.account,
+                  'deploy trans send, contract address: ' + account.account.did,
                 );
               });
           }}
