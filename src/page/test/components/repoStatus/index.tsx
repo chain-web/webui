@@ -3,7 +3,7 @@ import { skService } from '../../../../state/sk.state';
 import './index.scss';
 import { useActor } from '@xstate/react';
 import { useTranslation } from 'react-i18next';
-import { Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import { lanKeys } from './index.i18n';
 import { JsonView } from '../../../../components/JsonView';
 
@@ -36,6 +36,14 @@ export default function RepoStatus() {
 
       <div className="status-item">
         {repoStatus && <JsonView data={repoStatus} />}
+      </div>
+      <div className="status-item">
+        <Button onClick={async() => {
+          const itr = node.db.repo.gc()
+          for await (const block of itr) {
+            console.log('gc: ', block.cid?.toString())
+          }
+        }}>GC</Button>
       </div>
 
       {showBlock && (
