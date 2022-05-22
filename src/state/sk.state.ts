@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { DidJson } from 'sk-chain';
+import { DidJson, LifecycleStap } from 'sk-chain';
 import {
   assign,
   createMachine,
@@ -13,15 +13,18 @@ interface SkNodeMachineContext {
   chainOpts: {
     forceReady?: boolean;
   };
+  uTime: number;
 }
 
 export enum SkNodeEventType {
   'START_CHAIN' = 'START_CHAIN',
   'CONFIG_CHAIN' = 'CONFIG_CHAIN',
+  'BLOCK_HEIGHT_CHAIGE' = 'BLOCK_HEIGHT_CHAIGE',
 }
 
 export type SkNodeStateEvent =
   | { type: SkNodeEventType.START_CHAIN; data: DidJson }
+  | { type: SkNodeEventType.BLOCK_HEIGHT_CHAIGE }
   | {
       type: SkNodeEventType.CONFIG_CHAIN;
       data: Partial<SkNodeMachineContext['chainOpts']>;
@@ -54,6 +57,7 @@ export const skNodesMachine = createMachine<SkNodeMachineContext>(
     context: {
       chain: new SkChain(),
       chainOpts: {},
+      uTime: Date.now(),
     },
     states: {
       stop: {
@@ -104,12 +108,20 @@ export const skNodesMachine = createMachine<SkNodeMachineContext>(
               const { forceReady } = context.chainOpts;
               context.chain.sk.consensus.setIsReady(Boolean(forceReady));
               console.log('started-------idle');
+              // 监听sk-chain事件，更新状态机
+              context.chain.sk.lifecycleEvents.onEmit((key, ..._data) => {
+                if (key === LifecycleStap.newBlock) {
+                  skService.send(SkNodeEventType.BLOCK_HEIGHT_CHAIGE);
+                }
+              });
             },
-            // on: {
-            //   'SWARM-CONNECT': {
-            //     target: 'swarmConnect',
-            //   },
-            // },
+            on: {
+              [SkNodeEventType.BLOCK_HEIGHT_CHAIGE]: {
+                actions: assign({
+                  uTime: (_ctx) => Date.now(),
+                }),
+              },
+            },
           },
         },
       },
