@@ -8,6 +8,7 @@ import { TRANS_AMOUNT, TRANS_TO } from './config';
 import './index.scss';
 import { useActor } from '@xstate/react';
 import BigNumber from 'bignumber.js';
+import { Address } from 'sk-chain';
 
 export default function Transaction() {
   const [current] = useActor(skService);
@@ -35,7 +36,7 @@ export default function Transaction() {
             form.validateFields();
             current.context.chain.sk.transaction({
               amount: new BigNumber(form.getFieldValue(TRANS_AMOUNT)),
-              recipient: form.getFieldValue(TRANS_TO),
+              recipient: new Address(form.getFieldValue(TRANS_TO)),
             });
           }}
         >
