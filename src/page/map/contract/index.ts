@@ -23,7 +23,7 @@ export class Contract extends constractHelper.BaseContract {
 
     this.gridDb.set(did, {
       id: hexid,
-      owner: this.msg.sender,
+      owner: this.msg.sender.did,
       level: 1,
       uTime: this.msg.ts,
     });
@@ -33,7 +33,7 @@ export class Contract extends constractHelper.BaseContract {
     const did = constractHelper.hash(hexid);
     this.checkLevelDown(did);
     const item = this.gridDb.get(did);
-    if (item && item.owner !== this.msg.sender) {
+    if (item && item.owner !== this.msg.sender.did) {
       return;
     }
 
@@ -47,11 +47,11 @@ export class Contract extends constractHelper.BaseContract {
   public levelUp = (did: string) => {
     this.checkLevelDown(did);
     const item = this.gridDb.get(did);
-    if (!item || item.level === 0 || item.owner !== this.msg.sender) {
+    if (!item || item.level === 0 || item.owner !== this.msg.sender.did) {
       return;
     }
     factoryLevelUp();
-    if (this.userDb[this.msg.sender]) {
+    if (this.userDb[this.msg.sender.did]) {
       //TODO 检查是否有足够的资源升级
       this.gridDb.set(did, {
         ...item,
