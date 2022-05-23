@@ -17,7 +17,7 @@ export const createContractService = <T>(
     {
       get(_obj, mothed: string) {
         return (...arg: any) => {
-          chain.transaction({
+          return chain.transaction({
             recipient: new Address(address),
             amount: opts?.amount || new BigNumber(0),
             payload: {
@@ -33,7 +33,13 @@ export const createContractService = <T>(
   return contractService;
 };
 
-export const mapContract = createContractService<Contract>(
-  localStorage.getItem(contractAddressKey)!,
-  skService.state.context.chain.sk,
-);
+export let mapContract: Contract;
+
+skService.onChange((ctx) => {
+  if (ctx.chain.started) {
+    mapContract = createContractService<Contract>(
+      localStorage.getItem(contractAddressKey)!,
+      skService.state.context.chain.sk,
+    );
+  }
+});
