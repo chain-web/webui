@@ -1,11 +1,11 @@
 import { Button, message } from 'antd';
 import { useActor } from '@xstate/react';
 import { skService } from '../../../../state/sk.state';
-import { Account } from 'sk-chain';
+import { Account, Transaction } from 'sk-chain';
 
 export const DeployContract = (_CodeClass: any, contractCode: Uint8Array) => {
   return function DeployContractComp(props: {
-    onSuccess?: (account: Account) => void;
+    onSuccess?: (trans: Transaction) => void;
   }) {
     const [{ context }] = useActor(skService);
 
@@ -16,10 +16,11 @@ export const DeployContract = (_CodeClass: any, contractCode: Uint8Array) => {
           onClick={() => {
             skService.state.context.chain.sk
               .deploy({ payload: contractCode })
-              .then((account) => {
-                props.onSuccess && props.onSuccess(account);
+              .then((trans) => {
+                props.onSuccess && props.onSuccess(trans!);
                 message.info(
-                  'deploy trans send, contract address: ' + account.account.did,
+                  'deploy trans send, contract address: ' +
+                    trans?.recipient.did,
                 );
               });
           }}

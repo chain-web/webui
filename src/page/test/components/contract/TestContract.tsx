@@ -3,11 +3,11 @@ import { useActor } from '@xstate/react';
 import BigNumber from 'bignumber.js';
 import { useState } from 'react';
 import { skService } from '../../../../state/sk.state';
-import { Account, Address } from 'sk-chain';
+import { Address } from 'sk-chain';
 
 export const TestContract = (CodeClass: any, contractCode: Uint8Array) => {
   const codeClass = new CodeClass();
-  return function TestContractComp(props: {onSuccess?: (account: Account) => void}) {
+  return function TestContractComp() {
     const [{ context }] = useActor(skService);
     const [account, setaccount] = useState<Address>();
     const [func, setfunc] = useState('');
@@ -21,11 +21,10 @@ export const TestContract = (CodeClass: any, contractCode: Uint8Array) => {
           onClick={() => {
             skService.state.context.chain.sk.transTest
               .deploy({ payload: contractCode })
-              .then((account) => {
-                setaccount(account.account);
-                props.onSuccess && props.onSuccess(account);
+              .then((trans) => {
+                setaccount(trans.recipient);
                 message.info(
-                  'deploy trans send, contract address: ' + account.account.did,
+                  'deploy trans send, contract address: ' + trans.recipient.did,
                 );
               });
           }}

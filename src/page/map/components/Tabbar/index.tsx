@@ -24,8 +24,8 @@ export default function Tabbar() {
           key="node"
         >
           <DeployContractComp
-            onSuccess={(account) => {
-              localStorage.setItem(contractAddressKey, account.account.did);
+            onSuccess={(trans) => {
+              localStorage.setItem(contractAddressKey, trans.recipient.did);
             }}
           />
           <TestContractComp />
