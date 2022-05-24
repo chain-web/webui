@@ -2,7 +2,9 @@ import { ConstractHelper, constractHelper } from 'sk-chain';
 import { GridItemData, GridType, UserData } from './interface';
 import { factoryLevelUp } from './util';
 
-export class Contract extends constractHelper.BaseContract {
+const Base = constractHelper.BaseContract;
+
+export class Contract extends Base {
   constructor() {
     super();
     this.gridDb = constractHelper.createSliceDb<GridItemData>('base32');
@@ -29,12 +31,12 @@ export class Contract extends constractHelper.BaseContract {
     });
   };
 
-  public changeGridType = (hexid: string, type: GridType) => {
+  public changeGridType = (hexid: string, type: GridType): boolean => {
     const did = constractHelper.hash(hexid);
     this.checkLevelDown(did);
     const item = this.gridDb.get(did);
     if (item && item.owner !== this.msg.sender.did) {
-      return;
+      return false;
     }
 
     this.gridDb.set(did, {
@@ -42,6 +44,8 @@ export class Contract extends constractHelper.BaseContract {
       type,
       uTime: this.msg.ts,
     });
+
+    return true;
   };
 
   public levelUp = (did: string) => {
