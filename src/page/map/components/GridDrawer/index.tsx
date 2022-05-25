@@ -1,5 +1,5 @@
 import { useActor } from '@xstate/react';
-import { Button, Select } from 'antd';
+import { Button, message, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import { getSelfDid, skService } from '../../../../state/sk.state';
 import { MapEventType, mapService } from '../../map.state';
@@ -7,7 +7,7 @@ import './index.scss';
 import { getGridData } from './data.service';
 import { GridItemData, GridType } from '../../contract/interface';
 import { mapContract } from '../../contract/mapContract';
-import { CID, Transaction } from 'sk-chain';
+import { CID, Transaction, TransStatus } from 'sk-chain';
 
 export default function GridDrawer() {
   const [{ context }] = useActor(mapService);
@@ -19,35 +19,37 @@ export default function GridDrawer() {
   const { activeHex, showGridDetail } = context.grid;
   const [grid, setgrid] = useState<GridItemData>();
   const [gridtype, setgridtype] = useState(GridType.clay);
-  const [buildTrans, setbuildTrans] = useState<Transaction>();
   const [building, setbuilding] = useState(false);
+  const [taking, setTaking] = useState(false);
   useEffect(() => {
     if (!activeHex?.hexid) {
       return;
     }
     getGridData(activeHex.hexid).then((data) => {
       if (data) {
-        console.log(data)
+        console.log(data);
         setgrid(data);
       }
-    });
-  }, [activeHex]);
-
-  useEffect(() => {
-    if (!buildTrans) {
-      return;
-    }
-    chain.sk.getHeaderBlock().then((res) => {
-      if (res.header.logsBloom.contains(buildTrans.hash)) {
-        chain.sk.db.dag
-          .get(CID.parse(res.header.transactionsRoot))
-          .then((transRes) => {
-            // transRes.value.find(ele => )
-            console.log(transRes);
+      const tx = localStorage.getItem(`taking${activeHex.hexid}`);
+      if (tx) {
+        skService.state.context.chain.sk.transAction
+          .transStatus(tx)
+          .then((res) => {
+            if (
+              res.status === TransStatus.transing ||
+              res.status === TransStatus.waiting
+            ) {
+              setTaking(true);
+            }
+            if (res.status === TransStatus.transed) {
+              localStorage.removeItem(`taking${activeHex.hexid}`);
+            }
           });
+      } else {
+        setTaking(false);
       }
     });
-  }, [uTime]);
+  }, [activeHex, uTime]);
 
   return (
     <div
@@ -70,11 +72,15 @@ export default function GridDrawer() {
           <p>
             {!grid?.owner && (
               <Button
-                onClick={() => {
-                  mapContract.toOwn(activeHex.hexid);
+                loading={taking}
+                onClick={async () => {
+                  const { trans } = await mapContract.toOwn(activeHex.hexid);
+                  message.info('taking');
+                  setTaking(true);
+                  localStorage.setItem(`taking${activeHex.hexid}`, trans.hash);
                 }}
               >
-                take
+                {taking ? 'taking' : 'take'}
               </Button>
             )}
             {/* {grid?.owner === getSelfDid() && (
@@ -114,7 +120,8 @@ export default function GridDrawer() {
                   <Button
                     loading={building}
                     onClick={() => {
-                      const trans = mapContract.changeGridType(activeHex.hexid, gridtype);
+                      mapContract.changeGridType(activeHex.hexid, gridtype);
+                      setbuilding(true);
                     }}
                   >
                     {building ? 'building' : 'build'}
