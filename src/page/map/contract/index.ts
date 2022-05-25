@@ -1,10 +1,7 @@
-import { ConstractHelper, constractHelper } from 'sk-chain';
+import { ConstractHelper, constractHelper, BaseContract } from 'sk-chain';
 import { GridItemData, GridType, UserData } from './interface';
 import { factoryLevelUp } from './util';
-
-const Base = constractHelper.BaseContract;
-
-export class Contract extends Base {
+export class Contract extends BaseContract {
   constructor() {
     super();
     this.gridDb = constractHelper.createSliceDb<GridItemData>('base32');
@@ -15,12 +12,12 @@ export class Contract extends Base {
 
   static levelBase = 3600 * 24 * 1000;
 
-  public toOwn = (hexid: string) => {
+  public toOwn = (hexid: string): { succ: boolean } => {
     const did = constractHelper.hash(hexid);
     this.checkLevelDown(did);
 
     if (this.gridDb.get(did) && this.gridDb.get(did).level !== 0) {
-      return;
+      return { succ: false };
     }
 
     this.gridDb.set(did, {
@@ -29,14 +26,18 @@ export class Contract extends Base {
       level: 1,
       uTime: this.msg.ts,
     });
+    return { succ: true };
   };
 
-  public changeGridType = (hexid: string, type: GridType): boolean => {
+  public changeGridType = (
+    hexid: string,
+    type: GridType,
+  ): { succ: boolean } => {
     const did = constractHelper.hash(hexid);
     this.checkLevelDown(did);
     const item = this.gridDb.get(did);
     if (item && item.owner !== this.msg.sender.did) {
-      return false;
+      return { succ: false };
     }
 
     this.gridDb.set(did, {
@@ -45,7 +46,7 @@ export class Contract extends Base {
       uTime: this.msg.ts,
     });
 
-    return true;
+    return { succ: true };
   };
 
   public levelUp = (did: string) => {

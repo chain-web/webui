@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { Address, SKChain } from 'sk-chain';
-import { Contract } from '.';
+import { Contract } from './index.d';
 import { skService } from '../../../state/sk.state';
 export const contractAddressKey = 'map-contract-address';
 interface ContractOptions {
