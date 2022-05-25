@@ -16,7 +16,7 @@ export const DeployContract = (_CodeClass: any, contractCode: Uint8Array) => {
           onClick={() => {
             skService.state.context.chain.sk
               .deploy({ payload: contractCode })
-              .then((trans) => {
+              .then(({ trans }) => {
                 props.onSuccess && props.onSuccess(trans!);
                 message.info(
                   'deploy trans send, contract address: ' +

@@ -21,7 +21,7 @@ export const TestContract = (CodeClass: any, contractCode: Uint8Array) => {
           onClick={() => {
             skService.state.context.chain.sk.transTest
               .deploy({ payload: contractCode })
-              .then((trans) => {
+              .then(({ trans }) => {
                 setaccount(trans.recipient);
                 message.info(
                   'deploy trans send, contract address: ' + trans.recipient.did,
