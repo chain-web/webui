@@ -1,4 +1,4 @@
-import { constractHelper, ConstractHelper } from 'sk-chain';
+import { constractHelper, ConstractHelper, BaseContract } from 'sk-chain';
 import { factoryLevelUp } from './util';
 
 // 合约数据存储也slice，还没想到好的解决办法
@@ -20,7 +20,7 @@ interface UserData {
   };
 }
 
-export default class Contract extends constractHelper.BaseContract {
+export default class Contract extends BaseContract {
   constructor() {
     super();
     // 数据的存储分片还是需要的
