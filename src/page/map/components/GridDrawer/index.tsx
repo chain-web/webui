@@ -7,7 +7,8 @@ import './index.scss';
 import { getGridData } from './data.service';
 import { GridItemData, GridType } from '../../contract/interface';
 import { mapContract } from '../../contract/mapContract';
-import { CID, Transaction, TransStatus } from 'sk-chain';
+import { TransStatus } from 'sk-chain';
+import { mapDb } from '../../map.db';
 
 export default function GridDrawer() {
   const [{ context }] = useActor(mapService);
@@ -21,32 +22,52 @@ export default function GridDrawer() {
   const [gridtype, setgridtype] = useState(GridType.clay);
   const [building, setbuilding] = useState(false);
   const [taking, setTaking] = useState(false);
+
+  // 检查某个交易是否已发出，但未交易完成
+  const checkTransStatus = async (type: 'take' | 'build'): Promise<boolean> => {
+    const query = mapDb.trans.where({
+      type,
+      gridId: activeHex.hexid,
+    });
+    const txData = await query.toArray();
+
+    if (txData.length) {
+      const tx = txData[0].tx;
+      const res = await chain.sk.transAction.transStatus(tx);
+      console.log(tx, ' : ', res);
+      if (
+        res.status === TransStatus.transing ||
+        res.status === TransStatus.waiting
+      ) {
+        return true;
+      }
+      if (
+        res.status === TransStatus.transed ||
+        res.status === TransStatus.err_tx
+      ) {
+        await query.delete();
+      }
+    }
+    return false;
+  };
+
   useEffect(() => {
     if (!activeHex?.hexid) {
       return;
     }
-    getGridData(activeHex.hexid).then((data) => {
+    getGridData(activeHex.hexid).then(async (data) => {
       if (data) {
-        console.log(data);
+        // console.log(data);
         setgrid(data);
       }
-      const tx = localStorage.getItem(`taking${activeHex.hexid}`);
-      if (tx) {
-        skService.state.context.chain.sk.transAction
-          .transStatus(tx)
-          .then((res) => {
-            if (
-              res.status === TransStatus.transing ||
-              res.status === TransStatus.waiting
-            ) {
-              setTaking(true);
-            }
-            if (res.status === TransStatus.transed) {
-              localStorage.removeItem(`taking${activeHex.hexid}`);
-            }
-          });
-      } else {
-        setTaking(false);
+      const takeStatus = await checkTransStatus('take');
+      if (takeStatus !== taking) {
+        setTaking(takeStatus);
+      }
+
+      const buildStatus = await checkTransStatus('build');
+      if (buildStatus !== building) {
+        setbuilding(buildStatus);
       }
     });
   }, [activeHex, uTime]);
@@ -75,9 +96,14 @@ export default function GridDrawer() {
                 loading={taking}
                 onClick={async () => {
                   const { trans } = await mapContract.toOwn(activeHex.hexid);
-                  message.info('taking');
+                  message.info('taking tx send');
                   setTaking(true);
-                  localStorage.setItem(`taking${activeHex.hexid}`, trans.hash);
+                  mapDb.trans.add({
+                    tx: trans.hash,
+                    ts: trans.ts,
+                    gridId: activeHex.hexid,
+                    type: 'take',
+                  });
                 }}
               >
                 {taking ? 'taking' : 'take'}
@@ -103,7 +129,7 @@ export default function GridDrawer() {
           <div>
             {grid?.owner === getSelfDid() && (
               <div>
-                <div>type: {grid.type}</div>
+                <div>type: {grid?.type}</div>
                 <Select
                   value={gridtype}
                   onChange={(e) => {
@@ -119,9 +145,19 @@ export default function GridDrawer() {
                 <p>
                   <Button
                     loading={building}
-                    onClick={() => {
-                      mapContract.changeGridType(activeHex.hexid, gridtype);
+                    onClick={async () => {
+                      const { trans } = await mapContract.changeGridType(
+                        activeHex.hexid,
+                        gridtype,
+                      );
                       setbuilding(true);
+                      message.info('building tx send');
+                      mapDb.trans.add({
+                        tx: trans.hash,
+                        ts: trans.ts,
+                        gridId: activeHex.hexid,
+                        type: 'build',
+                      });
                     }}
                   >
                     {building ? 'building' : 'build'}
