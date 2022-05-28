@@ -1,25 +1,53 @@
-import { Map } from 'mapbox-gl';
-import { isMobile } from '../../config';
-import { MapEventType, mapService } from './map.state';
+import { GridType } from './contract/interface';
+import { HexItem, getBoundDistance } from 'sk-gridmap';
+import { Map as MapBox, LngLat } from 'mapbox-gl';
+import { MapEventType, mapStateService } from './map.state';
+import { getGridData } from './components/GridDrawer/data.service';
+import { preLoadMapSource } from './preload';
 
 export class MapAction {
-  constructor(map: Map) {
+  constructor(map: MapBox) {
     this.map = map;
     this.init();
   }
-  map: Map;
+  map: MapBox;
   clearMap = {
     source: '',
     fill: '',
   };
 
-  init = async () => {};
+  center?: LngLat;
+
+  featureIdReg = /[a-z,A-Z]/g;
+
+  grids: HexItem[] = []; // 当前可是区域内的格子
+
+  // 显示格子的source层id
+  defaultGridLayerId: string = 'defaultHexLayer';
+
+  getinggGridList = false;
+  getinggGridData = false;
+
+  init = async () => {
+    await preLoadMapSource(this.map);
+    this.center = this.map.getCenter();
+    this.bindClickEvent();
+    this.getinggGridList = true;
+    await this.getGridsByLngLat(this.center.lng, this.center.lat);
+    this.getinggGridList = false;
+    this.map.on('dragend', () => {
+      if (this.getinggGridList) {
+        return;
+      }
+      this.getCurrentGrids();
+    });
+  };
 
   bindClickEvent = async () => {
     this.map.on('click', async (e) => {
       // console.log(e.lngLat);
 
-      const hex = await mapService.state.context.hexService.genHexByLngLat(
+      const hex = await mapStateService.state.context.hexService.genHexByLngLat(
         e.lngLat,
       );
       // console.log(hex);
@@ -86,43 +114,24 @@ export class MapAction {
       //     'fill-opacity': 1,
       //   },
       // });
-      mapService.send(MapEventType.UPDATE_GRID, {
+      mapStateService.send(MapEventType.UPDATE_GRID, {
         data: { showGridDetail: true, activeHex: hex },
       });
     });
   };
 
-  // 添加默认的hover层，仅在pc下添加
-  addDefaultHexLayer = async (LngLat: number[]) => {
-    const list = await mapService.state.context.hexService.genCurHex(LngLat);
-    if (isMobile) {
-      return;
-    }
-    if (!this.map.isStyleLoaded()) {
-      // 确保map的资源已经加载完成，不然addSource会失败
-      await new Promise((reslove) => {
-        setTimeout(() => {
-          this.addDefaultHexLayer(LngLat).then(() => {
-            reslove(1);
-          })
-        }, 100);
-      })
-      return;
-    }
-    const id = 'defaultHexLayer';
-    this.map.addSource(id, {
+  // 添加默认的hover层
+  addDefaultHexLayer = async () => {
+    // this.map.removeSource(this.defaultGridLayerId);
+    // this.map.removeLayer(`${this.defaultGridLayerId}-fills`);
+    this.map.addSource(this.defaultGridLayerId, {
       type: 'geojson',
       data: {
         type: 'FeatureCollection',
-        features: list.map((ele: any) => {
+        features: this.grids.map((ele: any) => {
           return {
             type: 'Feature',
-            id: ele.hexid
-              .replace(/B/g, '')
-              .replace(/C/g, '')
-              .replace(/M/g, '')
-              .replace('x', '')
-              .replace('y', ''),
+            id: ele.hexid.replace(this.featureIdReg, ''),
             properties: { center: ele.center, id: ele.hexid },
             geometry: {
               type: 'Polygon',
@@ -133,28 +142,30 @@ export class MapAction {
       },
     });
     this.map.addLayer({
-      id: `${id}-fills`,
+      id: `${this.defaultGridLayerId}-fills`,
       type: 'fill',
-      source: id,
+      source: this.defaultGridLayerId,
       layout: {},
       paint: {
         // 'fill-outline-color': '#927BC1',
-        'fill-color': '#627BC1',
+        'fill-color': ['string', ['feature-state', 'fillimage'], '#927BC1'],
+        // 'fill-pattern': ['image', ['feature-state', 'fillimage']],
+        // 'fill-pattern': ['image', ['string', ['feature-state', 'fillimage'], 'blackGrid']],
         'fill-opacity': [
           'case',
           ['boolean', ['feature-state', 'hover'], false],
-          0.75,
-          0.08,
+          0.85,
+          0.38,
         ],
       },
     });
     let hoveredStateId: any = null;
     // 鼠标移入
-    this.map.on('mousemove', `${id}-fills`, (e) => {
+    this.map.on('mousemove', `${this.defaultGridLayerId}-fills`, (e) => {
       if (e.features && e.features.length > 0) {
         if (hoveredStateId !== null) {
           this.map.setFeatureState(
-            { source: id, id: hoveredStateId },
+            { source: this.defaultGridLayerId, id: hoveredStateId },
             { hover: false },
           );
         }
@@ -162,20 +173,115 @@ export class MapAction {
         // 仅pc有用
         hoveredStateId = e.features[0].id;
         this.map.setFeatureState(
-          { source: id, id: hoveredStateId },
+          { source: this.defaultGridLayerId, id: hoveredStateId },
           { hover: true },
         );
       }
     });
     // 鼠标移出
-    this.map.on('mouseleave', `${id}-fills`, () => {
+    this.map.on('mouseleave', `${this.defaultGridLayerId}-fills`, () => {
       if (hoveredStateId !== null) {
         this.map.setFeatureState(
-          { source: id, id: hoveredStateId },
+          { source: this.defaultGridLayerId, id: hoveredStateId },
           { hover: false },
         );
       }
       hoveredStateId = null;
+    });
+  };
+
+  getCurrentGrids = async () => {
+    this.getinggGridList = true;
+    const newCenter = this.map.getCenter();
+    const radiusMoved = getBoundDistance(
+      this.center!.lat,
+      this.center!.lng,
+      newCenter.lat,
+      newCenter.lng,
+    );
+    console.log(radiusMoved);
+    if (radiusMoved > 0.25) {
+      await this.getGridsByLngLat(newCenter.lng, newCenter.lat);
+      console.log(this.grids.length);
+      this.center = newCenter;
+    }
+    this.getinggGridList = false;
+  };
+
+  getGridsByLngLat = async (lng: number, lat: number) => {
+    const bounds = this.map.getBounds();
+    const radius = getBoundDistance(
+      bounds.getNorth(),
+      bounds.getEast(),
+      bounds.getSouth(),
+      bounds.getWest(),
+    );
+    this.grids = await mapStateService.state.context.hexService.genCurHex(
+      [lng, lat],
+      radius * 650,
+    );
+    await this.getGridData();
+    // this.addDefaultHexLayer(); // test
+  };
+
+  getGridData = async () => {
+    if (this.getinggGridData) {
+      setTimeout(() => {
+        this.getGridData();
+      }, 500);
+    }
+    this.getinggGridData = true;
+    for (let i = 0; i < this.grids.length; i++) {
+      const grid = this.grids[i];
+      const gridData = await getGridData(grid.hexid);
+      let img = 'blackGrid';
+      if (gridData?.owner && gridData.type === GridType.clay) {
+        img = 'clay';
+      }
+      if (gridData?.owner) {
+        this.addGridLayer(grid, { image: img });
+      }
+      // console.log(img, gridData);
+    }
+    this.getinggGridData = false;
+  };
+
+  addGridLayer = (grid: HexItem, { image }: { image: string }) => {
+    const id = grid.hexid.replace(this.featureIdReg, '');
+    const layerId = `${id}-fills`;
+    if (!this.map.getSource(id)) {
+      this.map.addSource(id, {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: [
+            {
+              type: 'Feature',
+              id: `${id}-grid`,
+              properties: { center: grid.center, id: grid.hexid },
+              geometry: {
+                type: 'Polygon',
+                coordinates: [grid.polygon],
+              },
+            },
+          ],
+        },
+      });
+    }
+
+    if (this.map.getLayer(layerId)) {
+      this.map.removeLayer(layerId);
+    }
+
+    this.map.addLayer({
+      id: layerId,
+      type: 'fill',
+      source: id,
+      layout: {},
+      paint: {
+        // 'fill-outline-color': '#927BC1',
+        'fill-color': '#927BC1',
+      },
     });
   };
 }

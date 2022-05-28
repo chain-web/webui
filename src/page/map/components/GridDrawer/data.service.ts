@@ -7,6 +7,9 @@ import { contractAddressKey } from '../../contract/mapContract';
 export const getGridData = async (
   hexid: string,
 ): Promise<GridItemData | undefined> => {
+  if (!skService.state.context.chain.started) {
+    return;
+  }
   const chain = skService.state.context.chain.sk;
   const account = localStorage.getItem(contractAddressKey);
   if (!account) {

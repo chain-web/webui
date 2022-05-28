@@ -16,22 +16,8 @@ const TestContractComp = TestContract(CtrClass, CtrCode);
 export default function Tabbar() {
   return (
     <div className="tabbar-box">
-      <Tabs tabPosition={'bottom'} defaultActiveKey="node">
-        <TabPane
-          forceRender
-          style={{ overflow: 'auto' }}
-          className="tabbar-item-box"
-          tab="node"
-          key="node"
-        >
-          <DeployContractComp
-            onSuccess={(trans) => {
-              localStorage.setItem(contractAddressKey, trans.recipient.did);
-            }}
-          />
-          <TestContractComp />
-          <TestPage />
-        </TabPane>
+      <Tabs tabPosition={'bottom'} defaultActiveKey="home">
+        
         <TabPane forceRender tab="home" key="home" className="tabbar-item-box">
           <Button
             onClick={async () => {
@@ -55,7 +41,21 @@ export default function Tabbar() {
           <div id="map-container" />
           <GridDrawer />
         </TabPane>
-
+        <TabPane
+          forceRender
+          style={{ overflow: 'auto' }}
+          className="tabbar-item-box"
+          tab="node"
+          key="node"
+        >
+          <DeployContractComp
+            onSuccess={(trans) => {
+              localStorage.setItem(contractAddressKey, trans.recipient.did);
+            }}
+          />
+          <TestContractComp />
+          <TestPage />
+        </TabPane>
         <TabPane forceRender className="tabbar-item-box" tab="chat" key="chat">
           <Chat />
         </TabPane>

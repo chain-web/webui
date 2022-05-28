@@ -6,6 +6,7 @@ import {
   MachineConfig,
   StateSchema,
 } from 'xstate';
+import { SkNodeEventType, skService } from '../../state/sk.state';
 import { MapAction } from './map';
 interface MapMachineContext {
   map: MapService;
@@ -16,11 +17,13 @@ interface MapMachineContext {
     showGridDetail: boolean;
     activeHex: HexItem;
   };
+  grids: Map<string, HexItem>; // 暂时没用到
 }
 
 export enum MapEventType {
   'INIT_MAP' = 'INIT_MAP',
   'UPDATE_GRID' = 'UPDATE_GRID',
+  'UPDATE_GRIDS' = 'UPDATE_GRIDS',
 }
 
 export type MapStateEvent =
@@ -28,6 +31,10 @@ export type MapStateEvent =
   | {
       type: MapEventType.UPDATE_GRID;
       data: Partial<MapMachineContext['grid']>;
+    }
+  | {
+      type: MapEventType.UPDATE_GRIDS;
+      data: HexItem[];
     };
 
 export interface MapStateSchema extends StateSchema {
@@ -62,6 +69,7 @@ const mapMachineConfig: MapStateConfig = {
       activeHex: undefined as unknown as HexItem,
       showGridDetail: false,
     },
+    grids: new Map(),
   },
   states: {
     uninit: {
@@ -82,10 +90,11 @@ const mapMachineConfig: MapStateConfig = {
       entry: (ctx) => {
         ctx.mapAction = new MapAction(ctx.map.map);
         ctx.hasPremission = true;
-        ctx.map.initPosition((data) => {
-          ctx.mapAction.addDefaultHexLayer(data).then(() => {
-            ctx.mapAction.bindClickEvent();
-          });
+        ctx.map.initPosition((data) => {});
+        skService.onEvent((e) => {
+          if (e.type === SkNodeEventType.BLOCK_HEIGHT_CHAIGE) {
+            ctx.mapAction.getGridData();
+          }
         });
       },
       on: {
@@ -98,6 +107,19 @@ const mapMachineConfig: MapStateConfig = {
             }),
           ],
         },
+        [MapEventType.UPDATE_GRIDS]: {
+          actions: [
+            assign({
+              grids: (ctx, event) => {
+                const updates = event.data;
+                updates.forEach((ele) => {
+                  ctx.grids.set(ele.hexid, ele);
+                });
+                return ctx.grids;
+              },
+            }),
+          ],
+        },
       },
     },
   },
@@ -105,6 +127,6 @@ const mapMachineConfig: MapStateConfig = {
 
 export const mapMachine = createMachine(mapMachineConfig);
 
-export const mapService = interpret(mapMachine);
+export const mapStateService = interpret(mapMachine);
 
-mapService.start();
+mapStateService.start();

@@ -2,7 +2,7 @@ import { useActor } from '@xstate/react';
 import { Button, message, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import { getSelfDid, skService } from '../../../../state/sk.state';
-import { MapEventType, mapService } from '../../map.state';
+import { MapEventType, mapStateService } from '../../map.state';
 import './index.scss';
 import { getGridData } from './data.service';
 import { GridItemData, GridType } from '../../contract/interface';
@@ -11,7 +11,7 @@ import { TransStatus } from 'sk-chain';
 import { mapDb } from '../../map.db';
 
 export default function GridDrawer() {
-  const [{ context }] = useActor(mapService);
+  const [{ context }] = useActor(mapStateService);
   const [
     {
       context: { uTime, chain },
@@ -81,7 +81,7 @@ export default function GridDrawer() {
         <div className="grid-msg-content">
           <span
             onClick={() => {
-              mapService.send(MapEventType.UPDATE_GRID, {
+              mapStateService.send(MapEventType.UPDATE_GRID, {
                 showGridDetail: false,
               });
             }}

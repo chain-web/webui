@@ -5,17 +5,17 @@ import Tabbar from './components/Tabbar';
 import NeedPremission from './components/needPremission';
 import { MapOption } from 'sk-gridmap';
 import { useActor } from '@xstate/react';
-import { MapEventType, mapService } from './map.state';
+import { MapEventType, mapStateService,  } from './map.state';
 export const mapBoxPk =
   'pk.eyJ1Ijoic2NjLW1hcGJveCIsImEiOiJja292MGsxNXgwMzl0MnZxczJ1ZHJ6MXNhIn0.BP99qksZP77yNqFTyfz_rw';
 export const MapBox = () => {
-  const [{ context }] = useActor(mapService);
+  const [{ context }] = useActor(mapStateService);
   useEffect(() => {
     const mapOption: MapOption = {
       container: 'map-container',
       mapBoxPk,
     };
-    mapService.send(MapEventType.INIT_MAP, { data: mapOption });
+    mapStateService.send(MapEventType.INIT_MAP, { data: mapOption });
   }, []);
   console.log(context);
   return (

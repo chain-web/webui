@@ -47,7 +47,9 @@ import { Map } from 'mapbox-gl';
 
 export const preLoadMapSource = async (map: Map) => {
   const imgMap: any = {
-    farmIcon: { url: 'farm.png' },
+    farmIcon: { url: 'skchain/farm.png' },
+    blackGrid: { url: 'https://wudao.aminer.cn/api/cogview/get-image/f9090f5c4679e5f0/1653632448178/6.jpg' },
+    clay: { url : 'https://wudao.aminer.cn/api/cogview/get-image/f9090f5c4679e5f0/1653632448178/1.jpg'}
   };
   await Promise.all(
     Object.keys(imgMap).map((key) => {
