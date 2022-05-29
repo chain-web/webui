@@ -1,6 +1,18 @@
 // some data from https://github.com/FlorianFe/Elements/tree/master/periodic-table/shared
 // color from http://jmol.sourceforge.net/jscolors/  use Jmol color
 export const elementsMeta = {
+  empty: {
+    symbol: 'Empty',
+    name: 'Empty',
+    group: 'Empty',
+    'atomic-number': 0,
+    'electron-configuration': [{ s: 0, p: 0, d: 0, f: 0 }],
+    electronegativity: 0,
+    'atomic-weight': 0,
+    'melting-point': 0,
+    'boiling-point': 0,
+    color: 'transparent',
+  },
   h: {
     symbol: 'H',
     name: 'Hydrogen',
@@ -11,7 +23,7 @@ export const elementsMeta = {
     'atomic-weight': 1.0079,
     'melting-point': 13.99,
     'boiling-point': 20.271,
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   },
   he: {
     symbol: 'He',
@@ -23,7 +35,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': 0.95,
     'boiling-point': 4.222,
-    color: '#D9FFFF'
+    color: '#D9FFFF',
   },
   li: {
     symbol: 'Li',
@@ -38,7 +50,7 @@ export const elementsMeta = {
     'atomic-weight': 6.94,
     'melting-point': 453.65,
     'boiling-point': 1603,
-    color: '#CC80FF'
+    color: '#CC80FF',
   },
   be: {
     symbol: 'Be',
@@ -53,7 +65,7 @@ export const elementsMeta = {
     'atomic-weight': 9.0121831,
     'melting-point': 1560,
     'boiling-point': 2742,
-    color: '#C2FF00'
+    color: '#C2FF00',
   },
   b: {
     symbol: 'B',
@@ -68,7 +80,7 @@ export const elementsMeta = {
     'atomic-weight': 10.81,
     'melting-point': 2349,
     'boiling-point': 4200,
-    color: '#FFB5B5'
+    color: '#FFB5B5',
   },
   c: {
     symbol: 'C',
@@ -83,7 +95,7 @@ export const elementsMeta = {
     'atomic-weight': 12.011,
     'melting-point': '-',
     'boiling-point': '-',
-    color: '#'
+    color: '#909090',
   },
   n: {
     symbol: 'N',
@@ -98,6 +110,7 @@ export const elementsMeta = {
     'atomic-weight': 14.007,
     'melting-point': 63.15,
     'boiling-point': 77.355,
+    color: '#3050F8',
   },
   o: {
     symbol: 'O',
@@ -112,6 +125,7 @@ export const elementsMeta = {
     'atomic-weight': 15.999,
     'melting-point': 54.36,
     'boiling-point': 90.188,
+    color: '#FF0D0D',
   },
   f: {
     symbol: 'F',
@@ -126,6 +140,7 @@ export const elementsMeta = {
     'atomic-weight': 18.998403163,
     'melting-point': 53.48,
     'boiling-point': 85.03,
+    color: '#90E050',
   },
   ne: {
     symbol: 'Ne',
@@ -140,6 +155,7 @@ export const elementsMeta = {
     'atomic-weight': 20.1797,
     'melting-point': 24.56,
     'boiling-point': 27.104,
+    color: '#B3E3F5',
   },
 
   na: {
@@ -156,6 +172,7 @@ export const elementsMeta = {
     'atomic-weight': 22.98976928,
     'melting-point': 370.944,
     'boiling-point': 208.029,
+    color: '#AB5CF2',
   },
   mg: {
     symbol: 'Mg',
@@ -171,6 +188,7 @@ export const elementsMeta = {
     'atomic-weight': 24.305,
     'melting-point': 923,
     'boiling-point': 1363,
+    color: '#8AFF00',
   },
   al: {
     symbol: 'Al',
@@ -186,6 +204,7 @@ export const elementsMeta = {
     'atomic-weight': 26.9815385,
     'melting-point': 933.47,
     'boiling-point': 2743,
+    color: '#BFA6A6',
   },
   si: {
     symbol: 'Si',
@@ -201,6 +220,7 @@ export const elementsMeta = {
     'atomic-weight': 28.085,
     'melting-point': 1687,
     'boiling-point': 3538,
+    color: '#F0C8A0',
   },
   p: {
     symbol: 'P',
@@ -216,6 +236,7 @@ export const elementsMeta = {
     'atomic-weight': 30.973761998,
     'melting-point': '-',
     'boiling-point': '-',
+    color: '#FF8000',
   },
   s: {
     symbol: 'S',
@@ -231,6 +252,7 @@ export const elementsMeta = {
     'atomic-weight': 32.06,
     'melting-point': '388.36',
     'boiling-point': '717.8',
+    color: '#FFFF30',
   },
   cl: {
     symbol: 'Cl',
@@ -246,6 +268,7 @@ export const elementsMeta = {
     'atomic-weight': 35.45,
     'melting-point': 171.6,
     'boiling-point': 239.11,
+    color: '#1FF01F',
   },
   ar: {
     symbol: 'Ar',
@@ -261,6 +284,7 @@ export const elementsMeta = {
     'atomic-weight': 39.948,
     'melting-point': 83.81,
     'boiling-point': 87.302,
+    color: '#80D1E3',
   },
 
   k: {
@@ -278,6 +302,7 @@ export const elementsMeta = {
     'atomic-weight': 39.0983,
     'melting-point': 336.7,
     'boiling-point': 1032,
+    color: '#8F40D4',
   },
   ca: {
     symbol: 'Ca',
@@ -294,6 +319,7 @@ export const elementsMeta = {
     'atomic-weight': 40.078,
     'melting-point': 1115,
     'boiling-point': 1757,
+    color: '#3DFF00',
   },
   sc: {
     symbol: 'Sc',
@@ -310,6 +336,7 @@ export const elementsMeta = {
     'atomic-weight': 44.955908,
     'melting-point': 1814,
     'boiling-point': 3109,
+    color: '#',
   },
   ti: {
     symbol: 'Ti',
@@ -326,6 +353,7 @@ export const elementsMeta = {
     'atomic-weight': 47.867,
     'melting-point': 1941,
     'boiling-point': 3560,
+    color: '#',
   },
   v: {
     symbol: 'V',
@@ -342,6 +370,7 @@ export const elementsMeta = {
     'atomic-weight': 50.9415,
     'melting-point': 2183,
     'boiling-point': 3680,
+    color: '#',
   },
   cr: {
     symbol: 'Cr',
@@ -358,6 +387,7 @@ export const elementsMeta = {
     'atomic-weight': 51.9961,
     'melting-point': 2180,
     'boiling-point': 2944,
+    color: '#',
   },
   mn: {
     symbol: 'Mn',
@@ -374,6 +404,7 @@ export const elementsMeta = {
     'atomic-weight': 54.938044,
     'melting-point': 1519,
     'boiling-point': 2334,
+    color: '#',
   },
   fe: {
     symbol: 'Fe',
@@ -390,6 +421,7 @@ export const elementsMeta = {
     'atomic-weight': 55.845,
     'melting-point': 1811,
     'boiling-point': 3134,
+    color: '#',
   },
   co: {
     symbol: 'Co',
@@ -406,6 +438,7 @@ export const elementsMeta = {
     'atomic-weight': 58.933194,
     'melting-point': 1768,
     'boiling-point': 3200,
+    color: '#',
   },
   ni: {
     symbol: 'Ni',
@@ -422,6 +455,7 @@ export const elementsMeta = {
     'atomic-weight': 58.6934,
     'melting-point': 1728,
     'boiling-point': 3003,
+    color: '#',
   },
   cu: {
     symbol: 'Cu',
@@ -438,6 +472,7 @@ export const elementsMeta = {
     'atomic-weight': 63.546,
     'melting-point': 1357.77,
     'boiling-point': 2835,
+    color: '#',
   },
   zn: {
     symbol: 'Zn',
@@ -454,6 +489,7 @@ export const elementsMeta = {
     'atomic-weight': 65.38,
     'melting-point': 692.68,
     'boiling-point': 1180,
+    color: '#',
   },
   ga: {
     symbol: 'Ga',
@@ -470,6 +506,7 @@ export const elementsMeta = {
     'atomic-weight': 69.723,
     'melting-point': 302.9146,
     'boiling-point': 2673,
+    color: '#',
   },
   ge: {
     symbol: 'Ge',
@@ -486,6 +523,7 @@ export const elementsMeta = {
     'atomic-weight': 72.63,
     'melting-point': 1211.4,
     'boiling-point': 3106,
+    color: '#',
   },
   as: {
     symbol: 'As',
@@ -502,6 +540,7 @@ export const elementsMeta = {
     'atomic-weight': 74.921595,
     'melting-point': '-',
     'boiling-point': '-',
+    color: '#',
   },
   se: {
     symbol: 'Se',
@@ -518,6 +557,7 @@ export const elementsMeta = {
     'atomic-weight': 78.971,
     'melting-point': 494,
     'boiling-point': 958,
+    color: '#',
   },
   br: {
     symbol: 'Br',
@@ -534,6 +574,7 @@ export const elementsMeta = {
     'atomic-weight': 79.904,
     'melting-point': 265.8,
     'boiling-point': 332.0,
+    color: '#',
   },
   kr: {
     symbol: 'Kr',
@@ -550,6 +591,7 @@ export const elementsMeta = {
     'atomic-weight': 83.798,
     'melting-point': 115.78,
     'boiling-point': 119.93,
+    color: '#',
   },
 
   rb: {
@@ -568,6 +610,7 @@ export const elementsMeta = {
     'atomic-weight': 85.4678,
     'melting-point': 312.45,
     'boiling-point': 961,
+    color: '#',
   },
   sr: {
     symbol: 'Sr',
@@ -585,6 +628,7 @@ export const elementsMeta = {
     'atomic-weight': 87.62,
     'melting-point': 1050,
     'boiling-point': 1650,
+    color: '#',
   },
   y: {
     symbol: 'Y',
@@ -602,6 +646,7 @@ export const elementsMeta = {
     'atomic-weight': 88.90584,
     'melting-point': 1799,
     'boiling-point': 3203,
+    color: '#',
   },
   zr: {
     symbol: 'Zr',
@@ -619,6 +664,7 @@ export const elementsMeta = {
     'atomic-weight': 91.224,
     'melting-point': 2128,
     'boiling-point': 4650,
+    color: '#',
   },
   nb: {
     symbol: 'Nb',
@@ -636,6 +682,7 @@ export const elementsMeta = {
     'atomic-weight': 92.90637,
     'melting-point': 2750,
     'boiling-point': 5017,
+    color: '#',
   },
   mo: {
     symbol: 'Mo',
@@ -653,6 +700,7 @@ export const elementsMeta = {
     'atomic-weight': 95.95,
     'melting-point': 2896,
     'boiling-point': 4912,
+    color: '#',
   },
   tc: {
     symbol: 'Tc',
@@ -670,6 +718,7 @@ export const elementsMeta = {
     'atomic-weight': '?',
     'melting-point': 2430,
     'boiling-point': 4538,
+    color: '#',
   },
   ru: {
     symbol: 'Ru',
@@ -687,6 +736,7 @@ export const elementsMeta = {
     'atomic-weight': 101.07,
     'melting-point': 2607,
     'boiling-point': 4423,
+    color: '#',
   },
 
   rh: {
@@ -705,6 +755,7 @@ export const elementsMeta = {
     'atomic-weight': 102.9055,
     'melting-point': 2237,
     'boiling-point': 3968,
+    color: '#',
   },
   pd: {
     symbol: 'Pd',
@@ -722,6 +773,7 @@ export const elementsMeta = {
     'atomic-weight': 106.42,
     'melting-point': 1828.05,
     'boiling-point': 3236,
+    color: '#',
   },
   ag: {
     symbol: 'Ag',
@@ -739,6 +791,7 @@ export const elementsMeta = {
     'atomic-weight': 107.8682,
     'melting-point': 1234.93,
     'boiling-point': 2435,
+    color: '#',
   },
   cd: {
     symbol: 'Cd',
@@ -756,6 +809,7 @@ export const elementsMeta = {
     'atomic-weight': 112.414,
     'melting-point': 594.22,
     'boiling-point': 1040,
+    color: '#',
   },
   in: {
     symbol: 'In',
@@ -773,6 +827,7 @@ export const elementsMeta = {
     'atomic-weight': 114.818,
     'melting-point': 429.7485,
     'boiling-point': 2345,
+    color: '#',
   },
   sn: {
     symbol: 'Sn',
@@ -790,6 +845,7 @@ export const elementsMeta = {
     'atomic-weight': 118.71,
     'melting-point': 505.08,
     'boiling-point': 2875,
+    color: '#',
   },
   sb: {
     symbol: 'Sb',
@@ -807,6 +863,7 @@ export const elementsMeta = {
     'atomic-weight': 121.76,
     'melting-point': 903.78,
     'boiling-point': 1908,
+    color: '#',
   },
   te: {
     symbol: 'Te',
@@ -824,6 +881,7 @@ export const elementsMeta = {
     'atomic-weight': 127.6,
     'melting-point': 722.66,
     'boiling-point': 1261,
+    color: '#',
   },
   i: {
     symbol: 'I',
@@ -841,6 +899,7 @@ export const elementsMeta = {
     'atomic-weight': 126.90447,
     'melting-point': 386.85,
     'boiling-point': 457.4,
+    color: '#',
   },
   xe: {
     symbol: 'Xe',
@@ -858,6 +917,7 @@ export const elementsMeta = {
     'atomic-weight': 131.293,
     'melting-point': 161.4,
     'boiling-point': 165.051,
+    color: '#',
   },
 
   cs: {
@@ -877,6 +937,7 @@ export const elementsMeta = {
     'atomic-weight': 132.90545196,
     'melting-point': 301.7,
     'boiling-point': 944,
+    color: '#',
   },
   ba: {
     symbol: 'Ba',
@@ -895,6 +956,7 @@ export const elementsMeta = {
     'atomic-weight': 137.327,
     'melting-point': 1000,
     'boiling-point': 2118,
+    color: '#',
   },
   hf: {
     symbol: 'Hf',
@@ -913,6 +975,7 @@ export const elementsMeta = {
     'atomic-weight': 178.49,
     'melting-point': 2506,
     'boiling-point': 4876,
+    color: '#',
   },
   ta: {
     symbol: 'Ta',
@@ -931,6 +994,7 @@ export const elementsMeta = {
     'atomic-weight': 180.94788,
     'melting-point': 3290,
     'boiling-point': 5731,
+    color: '#',
   },
   w: {
     symbol: 'W',
@@ -949,6 +1013,7 @@ export const elementsMeta = {
     'atomic-weight': 183.84,
     'melting-point': 3695,
     'boiling-point': 6203,
+    color: '#',
   },
   re: {
     symbol: 'Re',
@@ -967,6 +1032,7 @@ export const elementsMeta = {
     'atomic-weight': 186.207,
     'melting-point': 3459,
     'boiling-point': 5903,
+    color: '#',
   },
   os: {
     symbol: 'Os',
@@ -985,6 +1051,7 @@ export const elementsMeta = {
     'atomic-weight': 190.23,
     'melting-point': 3306,
     'boiling-point': 5285,
+    color: '#',
   },
   ir: {
     symbol: 'Ir',
@@ -1003,6 +1070,7 @@ export const elementsMeta = {
     'atomic-weight': 192.217,
     'melting-point': 2719,
     'boiling-point': 4403,
+    color: '#',
   },
   pt: {
     symbol: 'Pt',
@@ -1021,6 +1089,7 @@ export const elementsMeta = {
     'atomic-weight': 195.084,
     'melting-point': 2041.4,
     'boiling-point': 4098,
+    color: '#',
   },
   au: {
     symbol: 'Au',
@@ -1039,6 +1108,7 @@ export const elementsMeta = {
     'atomic-weight': 196.966569,
     'melting-point': 1337.33,
     'boiling-point': 3243,
+    color: '#',
   },
   hg: {
     symbol: 'Hg',
@@ -1057,6 +1127,7 @@ export const elementsMeta = {
     'atomic-weight': 200.592,
     'melting-point': 234.321,
     'boiling-point': 629.88,
+    color: '#',
   },
   tl: {
     symbol: 'Tl',
@@ -1075,6 +1146,7 @@ export const elementsMeta = {
     'atomic-weight': 204.38,
     'melting-point': 577,
     'boiling-point': 1746,
+    color: '#',
   },
   pb: {
     symbol: 'Pb',
@@ -1093,6 +1165,7 @@ export const elementsMeta = {
     'atomic-weight': 207.2,
     'melting-point': 600.61,
     'boiling-point': 2022,
+    color: '#',
   },
   bi: {
     symbol: 'Bi',
@@ -1111,6 +1184,7 @@ export const elementsMeta = {
     'atomic-weight': 208.9804,
     'melting-point': 544.7,
     'boiling-point': 1837,
+    color: '#',
   },
   po: {
     symbol: 'Po',
@@ -1129,6 +1203,7 @@ export const elementsMeta = {
     'atomic-weight': 209,
     'melting-point': 527,
     'boiling-point': 1235,
+    color: '#',
   },
   at: {
     symbol: 'At',
@@ -1147,6 +1222,7 @@ export const elementsMeta = {
     'atomic-weight': 210,
     'melting-point': 575,
     'boiling-point': 610,
+    color: '#',
   },
   rn: {
     symbol: 'Rn',
@@ -1165,6 +1241,7 @@ export const elementsMeta = {
     'atomic-weight': 222,
     'melting-point': 202,
     'boiling-point': 211.5,
+    color: '#',
   },
 
   fr: {
@@ -1185,6 +1262,7 @@ export const elementsMeta = {
     'atomic-weight': 223,
     'melting-point': '300 (?)',
     'boiling-point': '950 (?)',
+    color: '#',
   },
   ra: {
     symbol: 'Ra',
@@ -1204,6 +1282,7 @@ export const elementsMeta = {
     'atomic-weight': 226,
     'melting-point': 973,
     'boiling-point': 2010,
+    color: '#',
   },
   rf: {
     symbol: 'Rf',
@@ -1215,6 +1294,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': '?',
     'boiling-point': '?',
+    color: '#',
   },
   db: {
     symbol: 'Db',
@@ -1226,6 +1306,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': '?',
     'boiling-point': '?',
+    color: '#',
   },
   sg: {
     symbol: 'Sg',
@@ -1237,6 +1318,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': '?',
     'boiling-point': '?',
+    color: '#',
   },
   bh: {
     symbol: 'Bh',
@@ -1248,6 +1330,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': '?',
     'boiling-point': '?',
+    color: '#',
   },
   hs: {
     symbol: 'Hs',
@@ -1259,6 +1342,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': '?',
     'boiling-point': '?',
+    color: '#',
   },
   mt: {
     symbol: 'Mt',
@@ -1270,6 +1354,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': '?',
     'boiling-point': '?',
+    color: '#',
   },
   ds: {
     symbol: 'Ds',
@@ -1281,6 +1366,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': '?',
     'boiling-point': '?',
+    color: '#',
   },
   rg: {
     symbol: 'Rg',
@@ -1292,6 +1378,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': '?',
     'boiling-point': '?',
+    color: '#',
   },
   cn: {
     symbol: 'Cn',
@@ -1303,6 +1390,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': '?',
     'boiling-point': '?',
+    color: '#',
   },
   nh: {
     symbol: 'Nh',
@@ -1314,6 +1402,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': '?',
     'boiling-point': '?',
+    color: '#',
   },
   fl: {
     symbol: 'Fl',
@@ -1325,6 +1414,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': '?',
     'boiling-point': '?',
+    color: '#',
   },
   mc: {
     symbol: 'Mc',
@@ -1336,6 +1426,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': '?',
     'boiling-point': '?',
+    color: '#',
   },
   lv: {
     symbol: 'Lv',
@@ -1347,6 +1438,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': '?',
     'boiling-point': '?',
+    color: '#',
   },
   ts: {
     symbol: 'Ts',
@@ -1358,6 +1450,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': '?',
     'boiling-point': '?',
+    color: '#',
   },
   og: {
     symbol: 'Og',
@@ -1369,6 +1462,7 @@ export const elementsMeta = {
     'atomic-weight': 4.0026,
     'melting-point': '?',
     'boiling-point': '?',
+    color: '#',
   },
 
   la: {
@@ -1388,6 +1482,7 @@ export const elementsMeta = {
     'atomic-weight': 138.90547,
     'melting-point': 1193,
     'boiling-point': 3737,
+    color: '#',
   },
   ce: {
     symbol: 'Ce',
@@ -1406,6 +1501,7 @@ export const elementsMeta = {
     'atomic-weight': 140.116,
     'melting-point': 1068,
     'boiling-point': 3716,
+    color: '#',
   },
   pr: {
     symbol: 'Pr',
@@ -1424,6 +1520,7 @@ export const elementsMeta = {
     'atomic-weight': 140.90766,
     'melting-point': 1208,
     'boiling-point': 3403,
+    color: '#',
   },
   nd: {
     symbol: 'Nd',
@@ -1442,6 +1539,7 @@ export const elementsMeta = {
     'atomic-weight': 144.242,
     'melting-point': 1297,
     'boiling-point': 3347,
+    color: '#',
   },
   pm: {
     symbol: 'Pm',
@@ -1460,6 +1558,7 @@ export const elementsMeta = {
     'atomic-weight': 145,
     'melting-point': 1315,
     'boiling-point': 3273,
+    color: '#',
   },
   sm: {
     symbol: 'Sm',
@@ -1478,6 +1577,7 @@ export const elementsMeta = {
     'atomic-weight': 150.36,
     'melting-point': 1345,
     'boiling-point': 2173,
+    color: '#',
   },
   eu: {
     symbol: 'Eu',
@@ -1496,6 +1596,7 @@ export const elementsMeta = {
     'atomic-weight': 151.964,
     'melting-point': 1099,
     'boiling-point': 1802,
+    color: '#',
   },
   gd: {
     symbol: 'Gd',
@@ -1514,6 +1615,7 @@ export const elementsMeta = {
     'atomic-weight': 157.25,
     'melting-point': 1585,
     'boiling-point': 3273,
+    color: '#',
   },
   tb: {
     symbol: 'Tb',
@@ -1532,6 +1634,7 @@ export const elementsMeta = {
     'atomic-weight': 158.92535,
     'melting-point': 1629,
     'boiling-point': 3396,
+    color: '#',
   },
   dy: {
     symbol: 'Dy',
@@ -1550,6 +1653,7 @@ export const elementsMeta = {
     'atomic-weight': 162.5,
     'melting-point': 1680,
     'boiling-point': 2840,
+    color: '#',
   },
   ho: {
     symbol: 'Ho',
@@ -1568,6 +1672,7 @@ export const elementsMeta = {
     'atomic-weight': 164.93033,
     'melting-point': 1734,
     'boiling-point': 2873,
+    color: '#',
   },
   er: {
     symbol: 'Er',
@@ -1586,6 +1691,7 @@ export const elementsMeta = {
     'atomic-weight': 167.259,
     'melting-point': 1802,
     'boiling-point': 3141,
+    color: '#',
   },
   tm: {
     symbol: 'Tm',
@@ -1604,6 +1710,7 @@ export const elementsMeta = {
     'atomic-weight': 168.93422,
     'melting-point': 1818,
     'boiling-point': 2223,
+    color: '#',
   },
   yb: {
     symbol: 'Yb',
@@ -1622,6 +1729,7 @@ export const elementsMeta = {
     'atomic-weight': 173.045,
     'melting-point': 1097,
     'boiling-point': 1469,
+    color: '#',
   },
   lu: {
     symbol: 'Lu',
@@ -1640,6 +1748,7 @@ export const elementsMeta = {
     'atomic-weight': 174.9668,
     'melting-point': 1925,
     'boiling-point': 3675,
+    color: '#',
   },
 
   ac: {
@@ -1660,6 +1769,7 @@ export const elementsMeta = {
     'atomic-weight': 227,
     'melting-point': 1500,
     'boiling-point': 3500,
+    color: '#',
   },
   th: {
     symbol: 'Th',
@@ -1679,6 +1789,7 @@ export const elementsMeta = {
     'atomic-weight': 232.0377,
     'melting-point': 2023,
     'boiling-point': 5061,
+    color: '#',
   },
   pa: {
     symbol: 'Pa',
@@ -1698,6 +1809,7 @@ export const elementsMeta = {
     'atomic-weight': 231.03588,
     'melting-point': 1841,
     'boiling-point': 4300,
+    color: '#',
   },
   u: {
     symbol: 'U',
@@ -1717,6 +1829,7 @@ export const elementsMeta = {
     'atomic-weight': 238.02891,
     'melting-point': 1405.3,
     'boiling-point': 4404,
+    color: '#',
   },
   np: {
     symbol: 'Np',
@@ -1736,6 +1849,7 @@ export const elementsMeta = {
     'atomic-weight': 237,
     'melting-point': 912,
     'boiling-point': 4447,
+    color: '#',
   },
   pu: {
     symbol: 'Pu',
@@ -1755,6 +1869,7 @@ export const elementsMeta = {
     'atomic-weight': 244,
     'melting-point': 912.5,
     'boiling-point': 3505,
+    color: '#',
   },
   am: {
     symbol: 'Am',
@@ -1774,6 +1889,7 @@ export const elementsMeta = {
     'atomic-weight': 243,
     'melting-point': 1449,
     'boiling-point': 2880,
+    color: '#',
   },
   cm: {
     symbol: 'Cm',
@@ -1793,6 +1909,7 @@ export const elementsMeta = {
     'atomic-weight': 247,
     'melting-point': '1613',
     'boiling-point': '3383',
+    color: '#',
   },
   bk: {
     symbol: 'Bk',
@@ -1812,6 +1929,7 @@ export const elementsMeta = {
     'atomic-weight': 247,
     'melting-point': 1259,
     'boiling-point': 2900,
+    color: '#',
   },
   cf: {
     symbol: 'Cf',
@@ -1831,6 +1949,7 @@ export const elementsMeta = {
     'atomic-weight': 251,
     'melting-point': 1173,
     'boiling-point': 1743,
+    color: '#',
   },
   es: {
     symbol: 'Es',
@@ -1850,6 +1969,7 @@ export const elementsMeta = {
     'atomic-weight': 252,
     'melting-point': 1133,
     'boiling-point': 1269,
+    color: '#',
   },
   fm: {
     symbol: 'Fm',
@@ -1869,6 +1989,7 @@ export const elementsMeta = {
     'atomic-weight': 257,
     'melting-point': 1800,
     'boiling-point': '-',
+    color: '#',
   },
   md: {
     symbol: 'Md',
@@ -1888,6 +2009,7 @@ export const elementsMeta = {
     'atomic-weight': 258,
     'melting-point': 1100,
     'boiling-point': '-',
+    color: '#',
   },
   no: {
     symbol: 'No',
@@ -1907,6 +2029,7 @@ export const elementsMeta = {
     'atomic-weight': 259,
     'melting-point': 1100,
     'boiling-point': '-',
+    color: '#',
   },
   lr: {
     symbol: 'Lr',
@@ -1926,5 +2049,8 @@ export const elementsMeta = {
     'atomic-weight': 266,
     'melting-point': 1900,
     'boiling-point': '-',
+    color: '#',
   },
 };
+
+export type ElementTypes = keyof typeof elementsMeta;
