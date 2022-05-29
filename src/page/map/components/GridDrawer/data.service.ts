@@ -1,8 +1,9 @@
+import { initGridData } from './../../contract/util';
 import { bytes, CID, ConstractHelper } from 'sk-chain';
 import { skService } from '../../../../state/sk.state';
 import { sha256 } from 'multiformats/hashes/sha2';
 import { message } from 'antd';
-import { GridItemData } from '../../contract/interface';
+import { GridItemData, GridType } from '../../contract/interface';
 import { contractAddressKey } from '../../contract/mapContract';
 export const getGridData = async (
   hexid: string,
@@ -42,6 +43,7 @@ export const getGridData = async (
       owner: '',
       level: 0,
       uTime: 0,
+      data: initGridData(GridType.empty),
     };
   }
 };

@@ -1,9 +1,10 @@
 import { GridType } from './contract/interface';
 import { HexItem, getBoundDistance } from 'sk-gridmap';
-import { Map as MapBox, LngLat } from 'mapbox-gl';
+import { Map as MapBox, LngLat, FillPaint } from 'mapbox-gl';
 import { MapEventType, mapStateService } from './map.state';
 import { getGridData } from './components/GridDrawer/data.service';
-import { preLoadMapSource } from './preload';
+import { gridTypeColor, preLoadMapSource } from './preload';
+import { elementsMeta } from './elements';
 
 export class MapAction {
   constructor(map: MapBox) {
@@ -234,19 +235,22 @@ export class MapAction {
     for (let i = 0; i < this.grids.length; i++) {
       const grid = this.grids[i];
       const gridData = await getGridData(grid.hexid);
-      let img = 'blackGrid';
-      if (gridData?.owner && gridData.type === GridType.clay) {
-        img = 'clay';
-      }
       if (gridData?.owner) {
-        this.addGridLayer(grid, { image: img });
+        let color = '';
+        if (gridData.data.type === GridType.factoryL0) {
+          color = elementsMeta[gridData.data.element].color;
+        }
+        this.addGridLayer(grid, {
+          outline: gridTypeColor[gridData.data.type],
+          color,
+        });
       }
       // console.log(img, gridData);
     }
     this.getinggGridData = false;
   };
 
-  addGridLayer = (grid: HexItem, { image }: { image: string }) => {
+  addGridLayer = (grid: HexItem, opt: { outline?: string; color?: string }) => {
     const id = grid.hexid.replace(this.featureIdReg, '');
     const layerId = `${id}-fills`;
     if (!this.map.getSource(id)) {
@@ -272,16 +276,20 @@ export class MapAction {
     if (this.map.getLayer(layerId)) {
       this.map.removeLayer(layerId);
     }
+    const paint: FillPaint = {};
+    if (opt.color) {
+      paint['fill-color'] = opt.color;
+    }
+    if (opt.outline) {
+      paint['fill-outline-color'] = opt.outline;
+    }
 
     this.map.addLayer({
       id: layerId,
       type: 'fill',
       source: id,
       layout: {},
-      paint: {
-        // 'fill-outline-color': '#927BC1',
-        'fill-color': '#927BC1',
-      },
+      paint,
     });
   };
 }

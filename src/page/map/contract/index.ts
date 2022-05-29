@@ -1,6 +1,7 @@
 import { ConstractHelper, constractHelper, BaseContract } from 'sk-chain';
+import { ElementTypes } from '../elements';
 import { GridItemData, GridType, UserData } from './interface';
-import { factoryLevelUp } from './util';
+import { factoryLevelUp, initElementData, initGridData } from './util';
 export class Contract extends BaseContract {
   constructor() {
     super();
@@ -25,7 +26,32 @@ export class Contract extends BaseContract {
       owner: this.msg.sender.did,
       level: 1,
       uTime: this.msg.ts,
+      data: initGridData(GridType.empty),
     });
+    return { succ: true };
+  };
+
+  public changeElementType = (
+    hexid: string,
+    type: ElementTypes,
+  ): { succ: boolean } => {
+    const did = constractHelper.hash(hexid);
+    this.checkLevelDown(did);
+    const item = this.gridDb.get(did);
+    if (
+      !item ||
+      item.owner !== this.msg.sender.did ||
+      item.data.type !== GridType.factoryL0
+    ) {
+      return { succ: false };
+    }
+
+    this.gridDb.set(did, {
+      ...item,
+      data: initElementData(type),
+      uTime: this.msg.ts,
+    });
+
     return { succ: true };
   };
 
@@ -39,10 +65,9 @@ export class Contract extends BaseContract {
     if (item && item.owner !== this.msg.sender.did) {
       return { succ: false };
     }
-
     this.gridDb.set(did, {
       ...item,
-      type,
+      data: initGridData(type),
       uTime: this.msg.ts,
     });
 

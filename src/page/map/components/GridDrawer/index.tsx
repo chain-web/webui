@@ -9,6 +9,7 @@ import { GridItemData, GridType } from '../../contract/interface';
 import { mapContract } from '../../contract/mapContract';
 import { TransStatus } from 'sk-chain';
 import { mapDb } from '../../map.db';
+import { elementsMeta, ElementTypes } from '../../elements';
 
 export default function GridDrawer() {
   const [{ context }] = useActor(mapStateService);
@@ -19,12 +20,16 @@ export default function GridDrawer() {
   ] = useActor(skService);
   const { activeHex, showGridDetail } = context.grid;
   const [grid, setgrid] = useState<GridItemData>();
-  const [gridtype, setgridtype] = useState(GridType.clay);
+  const [gridtype, setgridtype] = useState(GridType.factoryL0);
+  const [elementtype, setelementtype] = useState<ElementTypes>('empty');
   const [building, setbuilding] = useState(false);
+  const [buildingElem, setbuildingElem] = useState(false);
   const [taking, setTaking] = useState(false);
 
   // 检查某个交易是否已发出，但未交易完成
-  const checkTransStatus = async (type: 'take' | 'build'): Promise<boolean> => {
+  const checkTransStatus = async (
+    type: 'take' | 'build' | 'buildElem',
+  ): Promise<boolean> => {
     const query = mapDb.trans.where({
       type,
       gridId: activeHex.hexid,
@@ -68,6 +73,11 @@ export default function GridDrawer() {
       const buildStatus = await checkTransStatus('build');
       if (buildStatus !== building) {
         setbuilding(buildStatus);
+      }
+
+      const buildElemStatus = await checkTransStatus('buildElem');
+      if (buildElemStatus !== buildingElem) {
+        setbuildingElem(buildElemStatus);
       }
     });
   }, [activeHex, uTime]);
@@ -129,7 +139,7 @@ export default function GridDrawer() {
           <div>
             {grid?.owner === getSelfDid() && (
               <div>
-                <div>type: {grid?.type}</div>
+                <div>type: {grid?.data.type}</div>
                 <Select
                   value={gridtype}
                   onChange={(e) => {
@@ -165,6 +175,61 @@ export default function GridDrawer() {
                 </p>
               </div>
             )}
+          </div>
+          {/* element type */}
+          <div>
+            {grid?.owner === getSelfDid() &&
+              grid.data.type === GridType.factoryL0 && (
+                <div>
+                  <div>type: {grid?.data.element}</div>
+                  <Select
+                    value={elementtype}
+                    onChange={(e) => {
+                      console.log(e)
+                      setelementtype(e);
+                    }}
+                  >
+                    {(Object.keys(elementsMeta) as ElementTypes[]).map(
+                      (ele: ElementTypes) => (
+                        <Select.Option value={ele} key={ele}>
+                          <span
+                            style={{
+                              display: 'inline-block',
+                              width: 16,
+                              height: 16,
+                              border: '1px solid #111',
+                              background: elementsMeta[ele].color,
+                            }}
+                          ></span>
+                          {elementsMeta[ele].symbol}:{elementsMeta[ele].name}
+                        </Select.Option>
+                      ),
+                    )}
+                  </Select>
+                  <p>
+                    <Button
+                      loading={buildingElem}
+                      onClick={async () => {
+                        console.log(elementtype)
+                        const { trans } = await mapContract.changeElementType(
+                          activeHex.hexid,
+                          elementtype,
+                        );
+                        setbuildingElem(true);
+                        message.info('building tx send');
+                        mapDb.trans.add({
+                          tx: trans.hash,
+                          ts: trans.ts,
+                          gridId: activeHex.hexid,
+                          type: 'build',
+                        });
+                      }}
+                    >
+                      {buildingElem ? 'building' : 'build'}
+                    </Button>
+                  </p>
+                </div>
+              )}
           </div>
         </div>
       )}
