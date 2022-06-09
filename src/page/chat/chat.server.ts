@@ -34,7 +34,7 @@ export class ChatServer {
   }
 
   private init() {
-    this.chain.db.pubsub.subscribe(skChatKey, async (data) => {
+    this.chain.db.pubsub.subscribe(skChatKey, async (data: any) => {
       // if (data.from === this.chain.did) {
       //   return;
       // }
