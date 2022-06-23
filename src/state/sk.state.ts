@@ -82,7 +82,7 @@ export const skNodesMachine = createMachine<SkNodeMachineContext>(
             return context.chain.init({
               id: event.id,
               privKey: event.privKey,
-            });
+            } as unknown  as DidJson); // TODO add edPriv and edPub
           },
           onDone: {
             target: 'started',
