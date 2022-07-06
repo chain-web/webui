@@ -7,6 +7,7 @@
     "proxy": "node ./proxy.js",
     "build": "react-scripts build",
     "deploy": "ccli deploy pages-static --dir ./build --env skchain",
+    "e2e": "playwright test",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -26,6 +27,7 @@
     "http-proxy": "^1.18.1",
     "i18next": "^21.6.11",
     "i18next-browser-languagedetector": "^6.1.3",
+    "lodash": "^4.17.21",
     "mapbox-gl": "^2.8.2",
     "minimist": ">=1.2.6",
     "moment": ">=2.29.2",
@@ -45,7 +47,9 @@
     "xstate": "^4.32.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.23.1",
     "@sccode/cli": "^1.0.4",
+    "@types/lodash": "^4.14.182",
     "@types/mapbox-gl": "^2.7.1",
     "@xstate/inspect": "^0.7.0",
     "sass": "^1.49.7",
