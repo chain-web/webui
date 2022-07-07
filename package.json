@@ -8,6 +8,7 @@
     "build": "react-scripts build",
     "deploy": "ccli deploy pages-static --dir ./build --env skchain",
     "e2e": "playwright test",
+    "e2e-headed": "playwright test --headed",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
