@@ -16,6 +16,7 @@ import RepoStatus from './components/repoStatus';
 import StateRootStatus from './components/stateRootStatus';
 import BlockStatus from './components/blockStatus';
 import TransactionStatus from './components/transactionStatus';
+import Login from './components/login';
 
 export default function TestPage() {
   const [current] = useActor(skService);
@@ -44,7 +45,7 @@ export default function TestPage() {
     <div className="test-box">
       <ChangeI18n />
       <div className="home-start-node">
-        {accounts.map((ele) => {
+        {/* {accounts.map((ele) => {
           return (
             <div key={ele.id} className="home-start-one">
               {!started && !start && (
@@ -63,7 +64,10 @@ export default function TestPage() {
               )}
             </div>
           );
-        })}
+        })} */}
+        {!started && <div>
+          <Login />
+          </div>}
         <div className="home-node-status">
           {start && (
             <Button type="default" loading={true}>
