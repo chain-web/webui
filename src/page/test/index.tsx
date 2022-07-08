@@ -45,26 +45,6 @@ export default function TestPage() {
     <div className="test-box">
       <ChangeI18n />
       <div className="home-start-node">
-        {/* {accounts.map((ele) => {
-          return (
-            <div key={ele.id} className="home-start-one">
-              {!started && !start && (
-                <p>
-                  did: <Input value={ele.id} />
-                </p>
-              )}
-              {!started && !start && (
-                <Button
-                  onClick={() => {
-                    skService.send(SkNodeEventType.START_CHAIN, ele);
-                  }}
-                >
-                  {t(lanKeys.start)}
-                </Button>
-              )}
-            </div>
-          );
-        })} */}
         {!started && <div>
           <Login />
           </div>}

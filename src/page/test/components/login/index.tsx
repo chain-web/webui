@@ -29,7 +29,7 @@ export default function Login() {
       type: 'text/json',
     });
     element.href = URL.createObjectURL(file);
-    element.download = 'myFile.json';
+    element.download = `${did.id}.json`;
     document.body.appendChild(element);
     element.click();
   };
@@ -141,7 +141,7 @@ export default function Login() {
               onClick={() => {
                 skService.send(SkNodeEventType.START_CHAIN, {
                   id: did,
-                  privkey: privKey,
+                  privKey,
                 });
               }}
             >
