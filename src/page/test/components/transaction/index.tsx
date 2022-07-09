@@ -28,6 +28,9 @@ export default function Transaction() {
             })}
           </Select>
         </FormItem>
+        <FormItem label="to" name={TRANS_TO}>
+          <Input className="trans-trans-to-ipt" />
+        </FormItem>
         <FormItem label="amount" name={TRANS_AMOUNT}>
           <Input type="number" />
         </FormItem>
