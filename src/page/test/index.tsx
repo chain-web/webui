@@ -27,7 +27,7 @@ export default function TestPage() {
   useEffect(() => {
     // 方便调试，自动启动节点
     const autoStart = +historyAction.pullHashParam('autoStart');
-    const forceReady = historyAction.pullHashParam('forceReady');
+    const forceReady = historyAction.pullHashParam('forceReady') === 'true';
     if (!isNaN(autoStart) && accounts[autoStart]) {
       setTimeout(() => {
         skService.send(SkNodeEventType.START_CHAIN, accounts[autoStart]);

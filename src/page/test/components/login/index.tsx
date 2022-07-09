@@ -115,12 +115,12 @@ export default function Login() {
       </div>
       {did && privKey && (
         <div>
-          <span>
+          <div>
             {t(lanKeys.did)}: {did}
-          </span>
-          <span>
+          </div>
+          <div>
             {t(lanKeys.privKey)}: {privKey}
-          </span>
+          </div>
 
           {loginType !== LoginType.DIDFile && (
             <div>

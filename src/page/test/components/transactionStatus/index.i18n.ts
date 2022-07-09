@@ -4,6 +4,9 @@ const lans = {
   en: {
     translations: {
       transactionStatus: 'transaction status',
+      wait_count: 'wait count',
+      wait_map: 'wait map',
+      transing_count: 'transing count',
     },
   },
   zh: {

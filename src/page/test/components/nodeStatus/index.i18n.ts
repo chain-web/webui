@@ -19,7 +19,7 @@ const lans = {
   },
   zh: {
     translations: {
-      node_status: '节点状态',
+      node_status: 'node status',
       sliceName: '当前分片',
       slicePeerSize: '当前分片节点数',
       slicePeerList: '节点列表',

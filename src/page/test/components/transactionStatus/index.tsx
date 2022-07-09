@@ -13,7 +13,12 @@ export default function TransactionStatus() {
   const [t] = useTranslation();
   const [blocks, setBlocks] = useState<object>({});
   const [showBlock, setshowBlock] = useState(false);
-  useEffect(() => {}, []);
+  const [, setUpdate] = useState(0);
+  useEffect(() => {
+    setInterval(() => {
+      setUpdate((update) => update + 1);
+    }, 1000);
+  }, []);
 
   // TODO 名字直接copy的blockStatus，得改
   const node = current.context.chain.sk;
@@ -42,6 +47,14 @@ export default function TransactionStatus() {
 
       <div className="status-item">
         <Button onClick={getHeaderBlock}>👀</Button>
+      </div>
+      <div className="status-item">
+        <span>{t(lanKeys.transing_count)}: </span>
+        <span>{node.transAction.status.transingArr.length}</span>
+      </div>
+      <div className="status-item">
+        <span>{t(lanKeys.wait_count)}: </span>
+        <span>{node.transAction.status.waitTransCount}</span>
       </div>
 
       {showBlock && (
