@@ -17,7 +17,7 @@ enum LoginType {
 export default function Login() {
   const [current] = useActor(skService);
   const [t] = useTranslation();
-  const [loginType, setLoginType] = useState(LoginType.None);
+  const [loginType, setLoginType] = useState(LoginType.PrivateKey);
   const [did, setdid] = useState('');
   const [privKey, setprivKey] = useState('');
 
@@ -138,6 +138,7 @@ export default function Login() {
           )}
           <div>
             <Button
+              id='login-login-btn'
               onClick={() => {
                 skService.send(SkNodeEventType.START_CHAIN, {
                   id: did,
